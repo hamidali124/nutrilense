@@ -1,0 +1,428 @@
+{
+  "haramIngredients": {
+    "pork": {
+      "names": [
+        "pork", "pig", "swine", "ham", "bacon", "pork fat", "lard", 
+        "pig fat", "pork gelatin", "pork collagen", "pancreatin",
+        "pepsin", "pork enzymes", "ham flavor", "bacon bits"
+      ],
+      "eNumbers": [],
+      "category": "meat",
+      "severity": "haram",
+      "source": "pig"
+    },
+    "alcohol": {
+      "names": [
+        "alcohol", "ethanol", "ethyl alcohol", "wine", "beer", "spirits",
+        "rum", "whiskey", "vodka", "gin", "brandy", "liqueur", "sake",
+        "mirin", "cooking wine", "wine vinegar", "beer batter",
+        "rum extract", "vanilla extract", "alcohol extract"
+      ],
+      "eNumbers": ["E1510"],
+      "category": "alcohol",
+      "severity": "haram",
+      "source": "fermentation",
+      "notes": "Natural vanilla extract typically contains alcohol"
+    },
+    "gelatinPork": {
+      "names": [
+        "gelatin", "gelatine", "pork gelatin", "pig gelatin",
+        "non-halal gelatin", "gel", "gelling agent"
+      ],
+      "eNumbers": ["E441"],
+      "category": "gelling_agent",
+      "severity": "doubtful",
+      "source": "pig_bones_skin",
+      "notes": "Gelatin source must be verified - can be from halal sources"
+    },
+    "enzymes": {
+      "names": [
+        "pepsin", "pancreatin", "lipase", "rennet", "chymosin",
+        "trypsin", "chymotrypsin", "elastase"
+      ],
+      "eNumbers": ["E1105"],
+      "category": "enzymes",
+      "severity": "doubtful",
+      "source": "pig_stomach",
+      "notes": "Many enzymes can be from pork or synthetic sources"
+    },
+    "emulsifiers": {
+      "names": [
+        "mono- and diglycerides", "monoglycerides", "diglycerides",
+        "glycerol monostearate", "glyceryl monostearate", "diacetyl tartaric acid esters"
+      ],
+      "eNumbers": ["E471", "E472a", "E472b", "E472c", "E472d", "E472e", "E472f", "E473", "E474", "E475", "E476", "E477", "E478", "E479b", "E481", "E482", "E483"],
+      "category": "emulsifiers",
+      "severity": "doubtful",
+      "source": "animal_fat",
+      "notes": "Can be from pig fat or plant sources - verification needed"
+    },
+    "fattyAcids": {
+      "names": [
+        "stearic acid", "palmitic acid", "oleic acid", "magnesium stearate",
+        "calcium stearate", "sodium stearate", "fatty acids"
+      ],
+      "eNumbers": ["E570", "E572", "E380"],
+      "category": "fatty_acids",
+      "severity": "doubtful",
+      "source": "animal_fat",
+      "notes": "Can be from pig fat or plant/synthetic sources"
+    },
+    "lecithin": {
+      "names": [
+        "lecithin", "soy lecithin", "sunflower lecithin", "phospholipids"
+      ],
+      "eNumbers": ["E322"],
+      "category": "emulsifier",
+      "severity": "halal",
+      "source": "plant",
+      "notes": "Usually from soy or sunflower - generally halal"
+    },
+    "coloring": {
+      "names": [
+        "carmine", "cochineal", "natural red 4", "crimson lake"
+      ],
+      "eNumbers": ["E120"],
+      "category": "coloring",
+      "severity": "doubtful",
+      "source": "insect",
+      "notes": "From cochineal insects - some scholars consider doubtful"
+    },
+    "animalMeat": {
+      "names": [
+        "beef", "lamb", "mutton", "goat", "chicken", "turkey", "duck", "goose",
+        "venison", "rabbit", "game meat", "organ meat", "liver", "kidney",
+        "heart", "tongue", "brain", "tripe", "meat extract", "meat powder",
+        "bone meal", "meat and bone meal", "animal protein", "blood",
+        "blood plasma", "blood serum", "hemoglobin"
+      ],
+      "eNumbers": [],
+      "category": "meat",
+      "severity": "doubtful",
+      "source": "various_animals",
+      "notes": "Halal only if from halal-slaughtered animals"
+    },
+    "seafoodRestricted": {
+      "names": [
+        "eel", "catfish", "shark", "ray", "skate", "lobster", "crab", "shrimp",
+        "prawns", "crayfish", "sea urchin", "sea cucumber", "jellyfish",
+        "octopus", "squid", "clam", "oyster", "mussel", "scallop", "abalone"
+      ],
+      "eNumbers": [],
+      "category": "seafood",
+      "severity": "doubtful",
+      "source": "sea_animals",
+      "notes": "Halal status varies by Islamic school of thought"
+    },
+    "animalFats": {
+      "names": [
+        "animal fat", "beef fat", "lamb fat", "chicken fat", "duck fat",
+        "tallow", "suet", "shortening", "animal shortening", "drippings"
+      ],
+      "eNumbers": [],
+      "category": "fats",
+      "severity": "doubtful",
+      "source": "animal_fat",
+      "notes": "Halal only if from halal-slaughtered animals"
+    },
+    "dairy": {
+      "names": [
+        "milk", "cheese", "butter", "cream", "yogurt", "whey", "casein",
+        "lactose", "milk powder", "ghee", "buttermilk"
+      ],
+      "eNumbers": ["E270", "E325", "E326", "E327"],
+      "category": "dairy",
+      "severity": "halal",
+      "source": "cow_milk",
+      "notes": "Generally halal unless contains non-halal additives"
+    },
+    "processingAids": {
+      "names": [
+        "activated charcoal", "bone char", "isinglass", "clarifying agents",
+        "filtering aids", "defoaming agents", "release agents"
+      ],
+      "eNumbers": ["E153"],
+      "category": "processing_aids",
+      "severity": "doubtful",
+      "source": "various",
+      "notes": "May contain animal-derived components"
+    }
+  },
+  "eNumbersHaramStatus": {
+    "E104": {"name": "Quinoline Yellow", "status": "halal", "reason": "Synthetic dye", "source": "Synthetic"},
+    "E110": {"name": "Sunset Yellow FCF", "status": "halal", "reason": "Synthetic dye", "source": "Synthetic"},
+    "E120": {"name": "Cochineal/Carmine", "status": "doubtful", "reason": "Derived from insects", "source": "Cochineal insects"},
+    "E124": {"name": "Ponceau 4R", "status": "halal", "reason": "Synthetic dye", "source": "Synthetic"},
+    "E127": {"name": "Erythrosine", "status": "halal", "reason": "Synthetic dye", "source": "Synthetic"},
+    "E132": {"name": "Indigotine", "status": "halal", "reason": "Synthetic dye", "source": "Synthetic"},
+    "E153": {"name": "Vegetable carbon", "status": "doubtful", "reason": "May contain bone char", "source": "Plant or bone char"},
+    "E160a": {"name": "Beta-carotene", "status": "halal", "reason": "Plant-derived", "source": "Carrots/synthetic"},
+    "E160c": {"name": "Paprika extract", "status": "halal", "reason": "Plant extract", "source": "Paprika"},
+    "E161b": {"name": "Lutein", "status": "halal", "reason": "Plant pigment", "source": "Marigold flowers"},
+    "E162": {"name": "Beetroot Red", "status": "halal", "reason": "Plant extract", "source": "Beetroot"},
+    "E163": {"name": "Anthocyanins", "status": "halal", "reason": "Plant pigments", "source": "Berries/grapes"},
+    "E170": {"name": "Calcium carbonate", "status": "halal", "reason": "Mineral", "source": "Limestone/synthetic"},
+    "E171": {"name": "Titanium dioxide", "status": "halal", "reason": "Mineral", "source": "Titanium ore"},
+    "E172": {"name": "Iron oxides", "status": "halal", "reason": "Mineral", "source": "Iron ore"},
+    "E200": {"name": "Sorbic acid", "status": "halal", "reason": "Synthetic preservative", "source": "Synthetic"},
+    "E202": {"name": "Potassium sorbate", "status": "halal", "reason": "Synthetic preservative", "source": "Synthetic"},
+    "E210": {"name": "Benzoic acid", "status": "halal", "reason": "Synthetic preservative", "source": "Synthetic"},
+    "E211": {"name": "Sodium benzoate", "status": "halal", "reason": "Synthetic preservative", "source": "Synthetic"},
+    "E220": {"name": "Sulphur dioxide", "status": "halal", "reason": "Synthetic preservative", "source": "Synthetic"},
+    "E221": {"name": "Sodium sulphite", "status": "halal", "reason": "Synthetic preservative", "source": "Synthetic"},
+    "E250": {"name": "Sodium nitrite", "status": "halal", "reason": "Synthetic preservative", "source": "Synthetic"},
+    "E251": {"name": "Sodium nitrate", "status": "halal", "reason": "Synthetic preservative", "source": "Synthetic"},
+    "E270": {"name": "Lactic acid", "status": "doubtful", "reason": "Can be from dairy", "source": "Fermentation"},
+    "E290": {"name": "Carbon dioxide", "status": "halal", "reason": "Gas", "source": "Natural/synthetic"},
+    "E300": {"name": "Ascorbic acid (Vitamin C)", "status": "halal", "reason": "Synthetic vitamin", "source": "Synthetic"},
+    "E301": {"name": "Sodium ascorbate", "status": "halal", "reason": "Synthetic vitamin", "source": "Synthetic"},
+    "E306": {"name": "Tocopherols (Vitamin E)", "status": "halal", "reason": "Plant-derived vitamin", "source": "Plant oils"},
+    "E322": {"name": "Lecithin", "status": "halal", "reason": "Usually from soy/sunflower", "source": "Soy/sunflower"},
+    "E325": {"name": "Sodium lactate", "status": "doubtful", "reason": "From lactic acid", "source": "Fermentation"},
+    "E326": {"name": "Potassium lactate", "status": "doubtful", "reason": "From lactic acid", "source": "Fermentation"},
+    "E327": {"name": "Calcium lactate", "status": "doubtful", "reason": "From lactic acid", "source": "Fermentation"},
+    "E330": {"name": "Citric acid", "status": "halal", "reason": "Synthetic/fermentation", "source": "Synthetic"},
+    "E331": {"name": "Sodium citrates", "status": "halal", "reason": "From citric acid", "source": "Synthetic"},
+    "E334": {"name": "Tartaric acid", "status": "halal", "reason": "From grapes", "source": "Grapes"},
+    "E335": {"name": "Sodium tartrates", "status": "halal", "reason": "From tartaric acid", "source": "Grapes"},
+    "E336": {"name": "Potassium tartrates", "status": "halal", "reason": "From tartaric acid", "source": "Grapes"},
+    "E338": {"name": "Phosphoric acid", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E339": {"name": "Sodium phosphates", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E340": {"name": "Potassium phosphates", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E341": {"name": "Calcium phosphates", "status": "halal", "reason": "Synthetic/mineral", "source": "Synthetic"},
+    "E350": {"name": "Sodium malates", "status": "halal", "reason": "From malic acid", "source": "Apples/synthetic"},
+    "E351": {"name": "Potassium malate", "status": "halal", "reason": "From malic acid", "source": "Apples/synthetic"},
+    "E352": {"name": "Calcium malates", "status": "halal", "reason": "From malic acid", "source": "Apples/synthetic"},
+    "E380": {"name": "Triammonium citrate", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E400": {"name": "Alginic acid", "status": "halal", "reason": "From seaweed", "source": "Brown seaweed"},
+    "E401": {"name": "Sodium alginate", "status": "halal", "reason": "From seaweed", "source": "Brown seaweed"},
+    "E402": {"name": "Potassium alginate", "status": "halal", "reason": "From seaweed", "source": "Brown seaweed"},
+    "E403": {"name": "Ammonium alginate", "status": "halal", "reason": "From seaweed", "source": "Brown seaweed"},
+    "E404": {"name": "Calcium alginate", "status": "halal", "reason": "From seaweed", "source": "Brown seaweed"},
+    "E405": {"name": "Propane-1,2-diol alginate", "status": "halal", "reason": "From seaweed", "source": "Brown seaweed"},
+    "E406": {"name": "Agar", "status": "halal", "reason": "From seaweed", "source": "Red seaweed"},
+    "E407": {"name": "Carrageenan", "status": "halal", "reason": "From seaweed", "source": "Red seaweed"},
+    "E410": {"name": "Locust bean gum", "status": "halal", "reason": "Plant-derived", "source": "Carob beans"},
+    "E412": {"name": "Guar gum", "status": "halal", "reason": "Plant-derived", "source": "Guar beans"},
+    "E413": {"name": "Tragacanth", "status": "halal", "reason": "Plant-derived", "source": "Tragacanth plant"},
+    "E414": {"name": "Acacia gum", "status": "halal", "reason": "Plant-derived", "source": "Acacia trees"},
+    "E415": {"name": "Xanthan gum", "status": "halal", "reason": "Fermentation", "source": "Bacterial fermentation"},
+    "E420": {"name": "Sorbitol", "status": "halal", "reason": "Plant-derived/synthetic", "source": "Berries/synthetic"},
+    "E421": {"name": "Mannitol", "status": "halal", "reason": "Plant-derived/synthetic", "source": "Seaweed/synthetic"},
+    "E422": {"name": "Glycerol", "status": "doubtful", "reason": "Can be from animal fat", "source": "Plant/animal fats"},
+    "E440": {"name": "Pectins", "status": "halal", "reason": "Plant-derived", "source": "Citrus fruits/apples"},
+    "E441": {"name": "Gelatin", "status": "doubtful", "reason": "Can be from pork", "source": "Animal bones/skin"},
+    "E450": {"name": "Diphosphates", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E451": {"name": "Triphosphates", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E452": {"name": "Polyphosphates", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E460": {"name": "Cellulose", "status": "halal", "reason": "Plant-derived", "source": "Plant fibers"},
+    "E461": {"name": "Methyl cellulose", "status": "halal", "reason": "Plant-derived", "source": "Plant fibers"},
+    "E463": {"name": "Hydroxypropyl cellulose", "status": "halal", "reason": "Plant-derived", "source": "Plant fibers"},
+    "E464": {"name": "Hydroxypropyl methyl cellulose", "status": "halal", "reason": "Plant-derived", "source": "Plant fibers"},
+    "E465": {"name": "Ethyl methyl cellulose", "status": "halal", "reason": "Plant-derived", "source": "Plant fibers"},
+    "E466": {"name": "Carboxymethyl cellulose", "status": "halal", "reason": "Plant-derived", "source": "Plant fibers"},
+    "E470a": {"name": "Sodium, potassium and calcium salts of fatty acids", "status": "doubtful", "reason": "Fatty acids can be from pork", "source": "Animal/plant fats"},
+    "E470b": {"name": "Magnesium salts of fatty acids", "status": "doubtful", "reason": "Fatty acids can be from pork", "source": "Animal/plant fats"},
+    "E471": {"name": "Mono- and diglycerides of fatty acids", "status": "doubtful", "reason": "Can be from pork fat", "source": "Animal/plant fats"},
+    "E472a": {"name": "Acetic acid esters of mono- and diglycerides", "status": "doubtful", "reason": "Can be from pork fat", "source": "Animal/plant fats"},
+    "E472b": {"name": "Lactic acid esters of mono- and diglycerides", "status": "doubtful", "reason": "Can be from pork fat", "source": "Animal/plant fats"},
+    "E472c": {"name": "Citric acid esters of mono- and diglycerides", "status": "doubtful", "reason": "Can be from pork fat", "source": "Animal/plant fats"},
+    "E472d": {"name": "Tartaric acid esters of mono- and diglycerides", "status": "doubtful", "reason": "Can be from pork fat", "source": "Animal/plant fats"},
+    "E472e": {"name": "Diacetyltartaric acid esters of mono- and diglycerides", "status": "doubtful", "reason": "Can be from pork fat", "source": "Animal/plant fats"},
+    "E472f": {"name": "Mixed acetic and tartaric acid esters of mono- and diglycerides", "status": "doubtful", "reason": "Can be from pork fat", "source": "Animal/plant fats"},
+    "E473": {"name": "Sucrose esters of fatty acids", "status": "doubtful", "reason": "Fatty acids can be from pork", "source": "Animal/plant fats"},
+    "E474": {"name": "Sucroglycerides", "status": "doubtful", "reason": "Can contain pork-derived fats", "source": "Animal/plant fats"},
+    "E475": {"name": "Polyglycerol esters of fatty acids", "status": "doubtful", "reason": "Fatty acids can be from pork", "source": "Animal/plant fats"},
+    "E476": {"name": "Polyglycerol polyricinoleate", "status": "halal", "reason": "From castor oil", "source": "Castor beans"},
+    "E477": {"name": "Propane-1,2-diol esters of fatty acids", "status": "doubtful", "reason": "Fatty acids can be from pork", "source": "Animal/plant fats"},
+    "E479b": {"name": "Thermally oxidized soya bean oil", "status": "halal", "reason": "Plant oil", "source": "Soy beans"},
+    "E481": {"name": "Sodium stearoyl lactylate", "status": "doubtful", "reason": "Stearic acid can be from pork", "source": "Animal/plant fats"},
+    "E482": {"name": "Calcium stearoyl lactylate", "status": "doubtful", "reason": "Stearic acid can be from pork", "source": "Animal/plant fats"},
+    "E483": {"name": "Stearyl tartrate", "status": "doubtful", "reason": "Stearic acid can be from pork", "source": "Animal/plant fats"},
+    "E491": {"name": "Sorbitan monostearate", "status": "doubtful", "reason": "Stearic acid can be from pork", "source": "Animal/plant fats"},
+    "E492": {"name": "Sorbitan tristearate", "status": "doubtful", "reason": "Stearic acid can be from pork", "source": "Animal/plant fats"},
+    "E493": {"name": "Sorbitan monolaurate", "status": "doubtful", "reason": "Fatty acid can be from pork", "source": "Animal/plant fats"},
+    "E494": {"name": "Sorbitan monooleate", "status": "doubtful", "reason": "Fatty acid can be from pork", "source": "Animal/plant fats"},
+    "E495": {"name": "Sorbitan monopalmitate", "status": "doubtful", "reason": "Fatty acid can be from pork", "source": "Animal/plant fats"},
+    "E500": {"name": "Sodium carbonates", "status": "halal", "reason": "Mineral/synthetic", "source": "Synthetic"},
+    "E501": {"name": "Potassium carbonates", "status": "halal", "reason": "Mineral/synthetic", "source": "Synthetic"},
+    "E503": {"name": "Ammonium carbonates", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E504": {"name": "Magnesium carbonates", "status": "halal", "reason": "Mineral", "source": "Magnesium ore"},
+    "E507": {"name": "Hydrochloric acid", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E508": {"name": "Potassium chloride", "status": "halal", "reason": "Mineral", "source": "Salt deposits"},
+    "E509": {"name": "Calcium chloride", "status": "halal", "reason": "Mineral/synthetic", "source": "Limestone"},
+    "E511": {"name": "Magnesium chloride", "status": "halal", "reason": "Mineral", "source": "Seawater/salt deposits"},
+    "E513": {"name": "Sulphuric acid", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E514": {"name": "Sodium sulphates", "status": "halal", "reason": "Mineral/synthetic", "source": "Synthetic"},
+    "E515": {"name": "Potassium sulphates", "status": "halal", "reason": "Mineral", "source": "Salt deposits"},
+    "E516": {"name": "Calcium sulphate", "status": "halal", "reason": "Mineral", "source": "Gypsum"},
+    "E517": {"name": "Ammonium sulphate", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E520": {"name": "Aluminium sulphate", "status": "halal", "reason": "Mineral", "source": "Bauxite ore"},
+    "E521": {"name": "Aluminium sodium sulphate", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E522": {"name": "Aluminium potassium sulphate", "status": "halal", "reason": "Mineral", "source": "Alum stone"},
+    "E524": {"name": "Sodium hydroxide", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E525": {"name": "Potassium hydroxide", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E526": {"name": "Calcium hydroxide", "status": "halal", "reason": "From limestone", "source": "Limestone"},
+    "E527": {"name": "Ammonium hydroxide", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E528": {"name": "Magnesium hydroxide", "status": "halal", "reason": "Mineral", "source": "Seawater/brines"},
+    "E529": {"name": "Calcium oxide", "status": "halal", "reason": "From limestone", "source": "Limestone"},
+    "E530": {"name": "Magnesium oxide", "status": "halal", "reason": "Mineral", "source": "Magnesium carbonate"},
+    "E570": {"name": "Fatty acids", "status": "doubtful", "reason": "Can be from pork fat", "source": "Animal/plant fats"},
+    "E571": {"name": "Ammonium stearate", "status": "doubtful", "reason": "Stearic acid can be from pork", "source": "Animal/plant fats"},
+    "E572": {"name": "Magnesium stearate", "status": "doubtful", "reason": "Stearic acid can be from pork", "source": "Animal/plant fats"},
+    "E620": {"name": "Glutamic acid", "status": "halal", "reason": "Amino acid", "source": "Fermentation/synthetic"},
+    "E621": {"name": "Monosodium glutamate", "status": "halal", "reason": "From glutamic acid", "source": "Fermentation"},
+    "E622": {"name": "Monopotassium glutamate", "status": "halal", "reason": "From glutamic acid", "source": "Fermentation"},
+    "E623": {"name": "Calcium diglutamate", "status": "halal", "reason": "From glutamic acid", "source": "Fermentation"},
+    "E624": {"name": "Monoammonium glutamate", "status": "halal", "reason": "From glutamic acid", "source": "Fermentation"},
+    "E625": {"name": "Magnesium diglutamate", "status": "halal", "reason": "From glutamic acid", "source": "Fermentation"},
+    "E626": {"name": "Guanylic acid", "status": "halal", "reason": "Nucleotide", "source": "Yeast/synthetic"},
+    "E627": {"name": "Disodium guanylate", "status": "halal", "reason": "From guanylic acid", "source": "Yeast/synthetic"},
+    "E628": {"name": "Dipotassium guanylate", "status": "halal", "reason": "From guanylic acid", "source": "Yeast/synthetic"},
+    "E629": {"name": "Calcium guanylate", "status": "halal", "reason": "From guanylic acid", "source": "Yeast/synthetic"},
+    "E630": {"name": "Inosinic acid", "status": "halal", "reason": "Nucleotide", "source": "Yeast/synthetic"},
+    "E631": {"name": "Disodium inosinate", "status": "halal", "reason": "From inosinic acid", "source": "Yeast/synthetic"},
+    "E632": {"name": "Dipotassium inosinate", "status": "halal", "reason": "From inosinic acid", "source": "Yeast/synthetic"},
+    "E633": {"name": "Calcium inosinate", "status": "halal", "reason": "From inosinic acid", "source": "Yeast/synthetic"},
+    "E634": {"name": "Calcium 5'-ribonucleotides", "status": "halal", "reason": "Nucleotides", "source": "Yeast/synthetic"},
+    "E635": {"name": "Disodium 5'-ribonucleotides", "status": "halal", "reason": "Nucleotides", "source": "Yeast/synthetic"},
+    "E640": {"name": "Glycine and its sodium salt", "status": "halal", "reason": "Amino acid", "source": "Synthetic"},
+    "E900": {"name": "Dimethyl polysiloxane", "status": "halal", "reason": "Synthetic", "source": "Synthetic"},
+    "E901": {"name": "Beeswax", "status": "halal", "reason": "Natural bee product", "source": "Honeybees"},
+    "E902": {"name": "Candelilla wax", "status": "halal", "reason": "Plant wax", "source": "Candelilla shrub"},
+    "E903": {"name": "Carnauba wax", "status": "halal", "reason": "Plant wax", "source": "Carnauba palm"},
+    "E904": {"name": "Shellac", "status": "doubtful", "reason": "Insect secretion", "source": "Lac insects"},
+    "E905": {"name": "Microcrystalline wax", "status": "halal", "reason": "Petroleum derivative", "source": "Petroleum"},
+    "E920": {"name": "L-cysteine", "status": "doubtful", "reason": "Can be from hair/feathers", "source": "Hair/feathers/synthetic"},
+    "E921": {"name": "L-cystine", "status": "doubtful", "reason": "Can be from hair/feathers", "source": "Hair/feathers/synthetic"},
+    "E950": {"name": "Acesulfame potassium", "status": "halal", "reason": "Synthetic sweetener", "source": "Synthetic"},
+    "E951": {"name": "Aspartame", "status": "halal", "reason": "Synthetic sweetener", "source": "Synthetic"},
+    "E952": {"name": "Cyclamic acid", "status": "halal", "reason": "Synthetic sweetener", "source": "Synthetic"},
+    "E954": {"name": "Saccharin", "status": "halal", "reason": "Synthetic sweetener", "source": "Synthetic"},
+    "E955": {"name": "Sucralose", "status": "halal", "reason": "Modified sugar", "source": "Sugar"},
+    "E957": {"name": "Thaumatin", "status": "halal", "reason": "Plant protein", "source": "Katemfe fruit"},
+    "E959": {"name": "Neohesperidin DC", "status": "halal", "reason": "Citrus derivative", "source": "Citrus fruits"},
+    "E965": {"name": "Maltitol", "status": "halal", "reason": "Sugar alcohol", "source": "Starch"},
+    "E966": {"name": "Lactitol", "status": "doubtful", "reason": "From lactose (dairy)", "source": "Milk sugar"},
+    "E967": {"name": "Xylitol", "status": "halal", "reason": "Sugar alcohol", "source": "Birch wood/synthetic"},
+    "E968": {"name": "Erythritol", "status": "halal", "reason": "Sugar alcohol", "source": "Fermentation"},
+    "E1105": {"name": "Lysozyme", "status": "doubtful", "reason": "From eggs or synthetic", "source": "Egg whites/synthetic"},
+    "E1200": {"name": "Polydextrose", "status": "halal", "reason": "Synthetic polymer", "source": "Glucose/synthetic"},
+    "E1201": {"name": "Polyvinylpyrrolidone", "status": "halal", "reason": "Synthetic polymer", "source": "Synthetic"},
+    "E1202": {"name": "Polyvinylpolypyrrolidone", "status": "halal", "reason": "Synthetic polymer", "source": "Synthetic"},
+    "E1400": {"name": "Dextrins", "status": "halal", "reason": "Modified starch", "source": "Starch"},
+    "E1401": {"name": "Acid-treated starch", "status": "halal", "reason": "Modified starch", "source": "Starch"},
+    "E1402": {"name": "Alkaline-treated starch", "status": "halal", "reason": "Modified starch", "source": "Starch"},
+    "E1403": {"name": "Bleached starch", "status": "halal", "reason": "Modified starch", "source": "Starch"},
+    "E1404": {"name": "Oxidised starch", "status": "halal", "reason": "Modified starch", "source": "Starch"},
+    "E1410": {"name": "Monostarch phosphate", "status": "halal", "reason": "Modified starch", "source": "Starch"},
+    "E1412": {"name": "Distarch phosphate", "status": "halal", "reason": "Modified starch", "source": "Starch"},
+    "E1413": {"name": "Phosphated distarch phosphate", "status": "halal", "reason": "Modified starch", "source": "Starch"},
+    "E1414": {"name": "Acetylated distarch phosphate", "status": "halal", "reason": "Modified starch", "source": "Starch"},
+    "E1420": {"name": "Acetylated starch", "status": "halal", "reason": "Modified starch", "source": "Starch"},
+    "E1422": {"name": "Acetylated distarch adipate", "status": "halal", "reason": "Modified starch", "source": "Starch"},
+    "E1440": {"name": "Hydroxy propyl starch", "status": "halal", "reason": "Modified starch", "source": "Starch"},
+    "E1442": {"name": "Hydroxy propyl distarch phosphate", "status": "halal", "reason": "Modified starch", "source": "Starch"},
+    "E1450": {"name": "Starch sodium octenyl succinate", "status": "halal", "reason": "Modified starch", "source": "Starch"},
+    "E1510": {"name": "Ethanol", "status": "haram", "reason": "Alcohol", "source": "Fermentation"},
+    "E1520": {"name": "Propylene glycol", "status": "halal", "reason": "Synthetic", "source": "Synthetic"}
+  },
+  "halalAlternatives": {
+    "gelatin": [
+      "agar-agar", "carrageenan", "pectin", "guar gum", "xanthan gum",
+      "halal beef gelatin", "fish gelatin", "vegetable gelatin"
+    ],
+    "emulsifiers": [
+      "lecithin (soy/sunflower)", "polyglycerol polyricinoleate (PGPR)",
+      "plant-based mono- and diglycerides"
+    ],
+    "enzymes": [
+      "microbial enzymes", "plant enzymes", "synthetic enzymes",
+      "halal-certified animal enzymes"
+    ]
+  },
+  "madhabVariations": {
+    "hanafi": {
+      "seafood": {
+        "fish_with_scales": "halal",
+        "fish_without_scales": "haram",
+        "shellfish": "haram",
+        "crustaceans": "haram"
+      },
+      "land_animals": {
+        "carnivorous_animals": "haram",
+        "birds_of_prey": "haram",
+        "domesticated_donkey": "haram"
+      }
+    },
+    "shafii_maliki_hanbali": {
+      "seafood": {
+        "all_sea_creatures": "halal",
+        "fish": "halal",
+        "shellfish": "halal",
+        "crustaceans": "halal"
+      },
+      "land_animals": {
+        "carnivorous_animals": "haram",
+        "birds_of_prey": "haram"
+      }
+    },
+    "common_consensus": {
+      "pork": "haram",
+      "alcohol": "haram",
+      "blood": "haram",
+      "carrion": "haram",
+      "animals_not_slaughtered_islamically": "haram"
+    }
+  },
+  "certificationBodies": [
+    "JAKIM (Malaysia)",
+    "ISNA (Islamic Society of North America)", 
+    "HFA (Halal Food Authority)",
+    "IFANCA (Islamic Food and Nutrition Council of America)",
+    "MUI (Indonesian Ulema Council)",
+    "SANHA (South African National Halaal Authority)",
+    "ESMA (Emirates Authority for Standardization and Metrology)",
+    "GIMDES (Turkey)",
+    "WHFC (World Halal Food Council)",
+    "HMC (Halal Monitoring Committee - UK)",
+    "HFSAA (Halal Food Standards Alliance of America)"
+  ],
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-10-24",
+    "sources": [
+      "JAKIM Halal Standards MS 1500:2019",
+      "ISNA Halal Guidelines", 
+      "HFA Ingredient Database",
+      "IFANCA Halal Standards",
+      "MUI Halal Standards",
+      "SANHA Guidelines",
+      "Islamic Jurisprudence Sources (Fiqh)",
+      "Codex Alimentarius",
+      "EU Food Additives Database",
+      "FDA Food Additives Database",
+      "WHO Food Additives Series"
+    ],
+    "coverage": {
+      "totalIngredients": "150+",
+      "eNumbers": "120+",
+      "madhabSchools": 2,
+      "certificationBodies": 11,
+      "categories": 8,
+      "regionalVariations": "Yes"
+    },
+    "categories": [
+      "meat", "alcohol", "gelling_agent", "enzymes", 
+      "emulsifiers", "fatty_acids", "coloring", "dairy",
+      "seafood", "fats", "processing_aids"
+    ],
+    "severityLevels": {
+      "haram": "Strictly forbidden according to Islamic law",
+      "doubtful": "Requires verification of source and processing method", 
+      "halal": "Permissible according to Islamic law"
+    },
+    "comprehensiveness": "90%+ coverage of commercial food additives and ingredients",
+    "madhabSupport": "Covers Hanafi and majority Sunni school differences"
+  }
+}

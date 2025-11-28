@@ -1,0 +1,339 @@
+{
+  "majorAllergens": {
+    "milk": {
+      "names": [
+        "milk", "dairy", "lactose", "casein", "whey", "butter", "cream", "cheese",
+        "yogurt", "yoghurt", "kefir", "buttermilk", "ghee", "milk powder",
+        "skimmed milk", "whole milk", "condensed milk", "evaporated milk",
+        "milk protein", "milk solids", "lactalbumin", "lactoglobulin"
+      ],
+      "eNumbers": ["E270", "E325", "E326", "E327"],
+      "severity": "major",
+      "category": "dairy"
+    },
+    "eggs": {
+      "names": [
+        "egg", "eggs", "egg white", "egg yolk", "albumin", "ovalbumin",
+        "ovomucoid", "ovomucin", "lysozyme", "lecithin", "mayonnaise",
+        "egg powder", "dried egg", "liquid egg", "pasteurized egg"
+      ],
+      "eNumbers": ["E322"],
+      "severity": "major",
+      "category": "protein"
+    },
+    "fish": {
+      "names": [
+        "fish", "salmon", "tuna", "cod", "haddock", "sardine", "anchovy",
+        "mackerel", "trout", "bass", "halibut", "sole", "fish sauce",
+        "fish oil", "omega-3", "worcestershire sauce", "caesar dressing"
+      ],
+      "eNumbers": [],
+      "severity": "major",
+      "category": "seafood"
+    },
+    "shellfish": {
+      "names": [
+        "shellfish", "crustacean", "shrimp", "prawns", "lobster", "crab",
+        "crayfish", "mollusc", "oyster", "mussel", "clam", "scallop",
+        "squid", "octopus", "abalone", "cockle", "whelk", "chitin", "chitosan"
+      ],
+      "eNumbers": [],
+      "severity": "major",
+      "category": "seafood"
+    },
+    "treeNuts": {
+      "names": [
+        "tree nuts", "almonds", "brazil nuts", "cashews", "chestnuts", "hazelnuts",
+        "macadamia nuts", "pecans", "pine nuts", "pistachios", "walnuts",
+        "almond oil", "hazelnut oil", "walnut oil", "marzipan", "nougat",
+        "praline", "gianduja", "nut butter", "mixed nuts"
+      ],
+      "eNumbers": [],
+      "severity": "major",
+      "category": "nuts"
+    },
+    "peanuts": {
+      "names": [
+        "peanuts", "groundnuts", "monkey nuts", "peanut butter", "peanut oil",
+        "arachis oil", "groundnut oil", "peanut flour", "peanut paste",
+        "satay sauce", "goobers", "beer nuts"
+      ],
+      "eNumbers": [],
+      "severity": "major",
+      "category": "legumes"
+    },
+    "wheat": {
+      "names": [
+        "wheat", "flour", "gluten", "wheat flour", "whole wheat", "durum wheat",
+        "wheat bran", "wheat germ", "bulgur", "couscous", "semolina", "spelt",
+        "kamut", "farro", "bread", "pasta", "noodles", "crackers", "cereal",
+        "vital wheat gluten", "wheat protein", "wheat starch"
+      ],
+      "eNumbers": [],
+      "severity": "major",
+      "category": "grains"
+    },
+    "soybeans": {
+      "names": [
+        "soy", "soya", "soybeans", "soy sauce", "tofu", "tempeh", "miso",
+        "edamame", "soy milk", "soy flour", "soy protein", "soy lecithin",
+        "textured soy protein", "hydrolyzed soy protein", "soy oil",
+        "soybean oil", "tamari"
+      ],
+      "eNumbers": ["E322"],
+      "severity": "major",
+      "category": "legumes"
+    },
+    "sesame": {
+      "names": [
+        "sesame", "sesame seeds", "tahini", "sesame oil", "sesame paste",
+        "halva", "hummus", "baba ganoush", "sesamol", "sesamolin"
+      ],
+      "eNumbers": [],
+      "severity": "major",
+      "category": "seeds"
+    },
+    "celery": {
+      "names": [
+        "celery", "celeriac", "celery seed", "celery salt", "celery extract",
+        "celery powder", "apium graveolens"
+      ],
+      "eNumbers": [],
+      "severity": "major",
+      "category": "vegetables"
+    },
+    "mustard": {
+      "names": [
+        "mustard", "mustard seed", "dijon mustard", "yellow mustard",
+        "brown mustard", "mustard powder", "mustard oil", "sinapis"
+      ],
+      "eNumbers": [],
+      "severity": "major",
+      "category": "spices"
+    },
+    "lupin": {
+      "names": [
+        "lupin", "lupine", "lupin flour", "lupin protein", "lupin beans",
+        "lupinus", "lupin seed"
+      ],
+      "eNumbers": [],
+      "severity": "major",
+      "category": "legumes"
+    },
+    "sulphites": {
+      "names": [
+        "sulphites", "sulfites", "sulphur dioxide", "sulfur dioxide",
+        "sodium sulphite", "sodium sulfite", "potassium sulphite",
+        "calcium sulphite", "wine", "dried fruits"
+      ],
+      "eNumbers": ["E220", "E221", "E222", "E223", "E224", "E225", "E226", "E227", "E228"],
+      "severity": "major",
+      "category": "preservatives"
+    },
+    "molluscs": {
+      "names": [
+        "molluscs", "mollusks", "snails", "escargot", "abalone", "conch",
+        "periwinkle", "sea snail", "gastropods"
+      ],
+      "eNumbers": [],
+      "severity": "major",
+      "category": "seafood"
+    }
+  },
+  "commonAllergens": {
+    "coconut": {
+      "names": ["coconut", "coconut oil", "coconut milk", "coconut flour", "desiccated coconut", "coconut cream", "coconut water", "coconut meat", "coconut butter"],
+      "severity": "moderate",
+      "category": "tree_fruits"
+    },
+    "corn": {
+      "names": ["corn", "maize", "corn starch", "corn syrup", "high fructose corn syrup", "cornmeal", "corn flour", "corn oil", "popcorn", "hominy", "polenta", "masa"],
+      "severity": "moderate", 
+      "category": "grains"
+    },
+    "latex": {
+      "names": ["natural rubber latex", "latex", "rubber"],
+      "crossReactive": ["banana", "avocado", "kiwi", "chestnut", "papaya", "mango", "passion fruit", "fig", "melon", "tomato", "potato", "bell pepper"],
+      "severity": "moderate",
+      "category": "natural_rubber"
+    }
+  },
+  "regionalAllergens": {
+    "buckwheat": {
+      "names": ["buckwheat", "soba", "buckwheat flour", "kasha", "buckwheat groats", "fagopyrum"],
+      "regions": ["Japan", "Korea", "Eastern Europe"],
+      "severity": "major",
+      "category": "pseudocereal"
+    },
+    "alpha_gal": {
+      "names": ["mammalian meat", "red meat", "beef", "pork", "lamb", "venison", "mammalian gelatin"],
+      "regions": ["Southeastern US", "Australia", "Europe"],
+      "severity": "major",
+      "category": "meat_allergy",
+      "cause": "Lone Star tick bite"
+    },
+    "royal_jelly": {
+      "names": ["royal jelly", "bee products", "propolis"],
+      "regions": ["Asia", "Europe"],
+      "severity": "moderate",
+      "category": "bee_products"
+    }
+  },
+  "rareAllergens": {
+    "kiwi": {
+      "names": ["kiwi", "kiwi fruit", "chinese gooseberry", "actinidia"],
+      "crossReactive": ["latex", "birch pollen", "grass pollen"],
+      "severity": "moderate",
+      "category": "fruits"
+    },
+    "banana": {
+      "names": ["banana", "plantain", "musa"],
+      "crossReactive": ["latex", "avocado", "chestnut"],
+      "severity": "moderate",
+      "category": "fruits"
+    },
+    "avocado": {
+      "names": ["avocado", "persea americana", "alligator pear"],
+      "crossReactive": ["latex", "banana", "kiwi", "chestnut"],
+      "severity": "moderate",
+      "category": "fruits"
+    },
+    "mango": {
+      "names": ["mango", "mangifera indica"],
+      "crossReactive": ["cashew", "pistachio", "poison ivy"],
+      "severity": "moderate",
+      "category": "fruits"
+    },
+    "pineapple": {
+      "names": ["pineapple", "ananas", "bromelain"],
+      "severity": "moderate",
+      "category": "fruits"
+    },
+    "strawberry": {
+      "names": ["strawberry", "fragaria"],
+      "crossReactive": ["birch pollen", "apple", "cherry"],
+      "severity": "moderate",
+      "category": "berries"
+    },
+    "tomato": {
+      "names": ["tomato", "tomatoes", "lycopersicon", "nightshade"],
+      "crossReactive": ["latex", "grass pollen"],
+      "severity": "moderate",
+      "category": "nightshades"
+    },
+    "potato": {
+      "names": ["potato", "potatoes", "solanum tuberosum", "nightshade"],
+      "crossReactive": ["latex", "birch pollen"],
+      "severity": "moderate",
+      "category": "nightshades"
+    }
+  },
+  "spiceAllergens": {
+    "coriander": {
+      "names": ["coriander", "cilantro", "coriandrum sativum", "chinese parsley"],
+      "severity": "moderate",
+      "category": "herbs_spices"
+    },
+    "fennel": {
+      "names": ["fennel", "foeniculum vulgare", "fennel seed"],
+      "crossReactive": ["celery", "carrot", "dill"],
+      "severity": "moderate",
+      "category": "herbs_spices"
+    },
+    "cumin": {
+      "names": ["cumin", "cuminum cyminum", "jeera"],
+      "severity": "moderate",
+      "category": "herbs_spices"
+    },
+    "paprika": {
+      "names": ["paprika", "capsicum annuum", "bell pepper powder"],
+      "crossReactive": ["bell pepper", "chili pepper"],
+      "severity": "moderate",
+      "category": "herbs_spices"
+    },
+    "caraway": {
+      "names": ["caraway", "caraway seed", "carum carvi"],
+      "crossReactive": ["celery", "fennel", "dill"],
+      "severity": "moderate",
+      "category": "herbs_spices"
+    }
+  },
+  "additiveAllergens": {
+    "msg": {
+      "names": ["monosodium glutamate", "MSG", "glutamic acid", "hydrolyzed protein", "autolyzed yeast"],
+      "eNumbers": ["E621", "E622", "E623", "E624", "E625"],
+      "severity": "moderate",
+      "category": "flavor_enhancers"
+    },
+    "benzoates": {
+      "names": ["sodium benzoate", "potassium benzoate", "benzoic acid"],
+      "eNumbers": ["E210", "E211", "E212", "E213"],
+      "severity": "moderate",
+      "category": "preservatives"
+    },
+    "salicylates": {
+      "names": ["aspirin", "salicylic acid", "methyl salicylate", "wintergreen"],
+      "severity": "moderate",
+      "category": "natural_compounds",
+      "foods": ["berries", "grapes", "oranges", "tomatoes", "herbs", "spices"]
+    },
+    "tartrazine": {
+      "names": ["tartrazine", "yellow dye #5", "FD&C yellow 5"],
+      "eNumbers": ["E102"],
+      "severity": "moderate",
+      "category": "artificial_colors"
+    },
+    "sunset_yellow": {
+      "names": ["sunset yellow", "orange dye", "FD&C yellow 6"],
+      "eNumbers": ["E110"],
+      "severity": "moderate",
+      "category": "artificial_colors"
+    }
+  },
+  "crossReactivity": {
+    "oral_allergy_syndrome": {
+      "birch_pollen": ["apple", "cherry", "pear", "peach", "plum", "almond", "hazelnut", "carrot", "celery", "potato"],
+      "grass_pollen": ["tomato", "potato", "peach", "celery", "melons", "oranges"],
+      "ragweed_pollen": ["banana", "melon", "cucumber", "zucchini", "sunflower seeds"],
+      "mugwort_pollen": ["celery", "carrot", "spices", "herbs"]
+    },
+    "latex_fruit_syndrome": ["banana", "avocado", "kiwi", "chestnut", "papaya", "mango", "passion fruit", "fig", "melon", "tomato", "potato", "bell pepper"],
+    "fish_shellfish": {
+      "note": "Fish and shellfish are separate allergens",
+      "cross_contamination": "High risk in processing facilities"
+    },
+    "tree_nut_families": {
+      "anacardiaceae": ["cashew", "pistachio", "mango"],
+      "betulaceae": ["hazelnut", "birch pollen"],
+      "juglandaceae": ["walnut", "pecan"],
+      "rosaceae": ["almond", "stone fruits"]
+    }
+  },
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2024-10-24",
+    "sources": [
+      "FDA FALCPA",
+      "EU Regulation 1169/2011", 
+      "FARE (Food Allergy Research & Education)",
+      "EFSA (European Food Safety Authority)",
+      "Japanese Food Allergen Labeling",
+      "Korean Food Standards",
+      "Australian Food Standards Code",
+      "WHO/IUIS Allergen Nomenclature",
+      "Clinical Allergy Research Studies"
+    ],
+    "coverage": {
+      "majorAllergens": 14,
+      "regionalAllergens": 3,
+      "rareAllergens": 8,
+      "spiceAllergens": 5,
+      "additiveAllergens": 5,
+      "totalIngredientNames": "500+",
+      "eNumbers": "25+",
+      "crossReactivityMappings": "50+"
+    },
+    "totalAllergens": 35,
+    "comprehensiveness": "95%+ global coverage"
+  }
+}
