@@ -9,3 +9,7 @@ export { NoNutritionFound } from './NoNutritionFound';
 export { IngredientsDisplay } from './IngredientsDisplay';
 export { HomePage } from './HomePage';
 export { ScannerPage } from './ScannerPage';
+export { NutritionDashboard } from './NutritionDashboard';
+export { ConsumeConfirmationModal } from './ConsumeConfirmationModal';
+export { NutriScoreModal } from './NutriScoreModal';
+export { ManualInputForm } from './ManualInputForm';
