@@ -1,80 +1,51 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useState, useCallback, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES } from '../constants';
+import { NutritionDashboard } from './NutritionDashboard';
+import { useAuth } from '../contexts/AuthContext';
 
 /**
- * Home Page Component - Landing page with app information
+ * Home Page Component - Landing page with app information and nutrition dashboard
  */
 export const HomePage = () => {
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const { user } = useAuth();
+
+  const onRefresh = useCallback(async () => {
+    // Trigger dashboard refresh
+    setRefreshTrigger(prev => prev + 1);
+  }, []);
+
+  // Refresh dashboard when component mounts
+  useEffect(() => {
+    setRefreshTrigger(prev => prev + 1);
+  }, []);
+
+  const userName = user?.name || 'User';
+
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView 
+      style={styles.container} 
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl refreshing={false} onRefresh={onRefresh} />
+      }
+    >
       <View style={styles.content}>
-        {/* App Logo/Icon */}
-        <View style={styles.logoContainer}>
-          <View style={styles.logoCircle}>
-            <Ionicons name="nutrition" size={64} color={COLORS.primary} />
-          </View>
+        {/* Welcome Message */}
+        <View style={styles.welcomeContainer}>
+          <Text style={styles.welcomeText}>Welcome {userName}</Text>
         </View>
 
-        {/* App Name */}
-        <Text style={styles.appName}>NutriLens</Text>
-        <Text style={styles.tagline}>Your Smart Nutrition Assistant</Text>
+        {/* Nutrition Dashboard */}
+        <NutritionDashboard refreshTrigger={refreshTrigger} />
 
-        {/* Description */}
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionTitle}>Welcome to NutriLens!</Text>
-          <Text style={styles.description}>
-            NutriLens helps you make informed food choices by instantly scanning and analyzing nutrition labels and ingredient lists from food packaging.
-          </Text>
-        </View>
-
-        {/* Features */}
-        <View style={styles.featuresContainer}>
-          <Text style={styles.featuresTitle}>Features</Text>
-          
-          <View style={styles.featureItem}>
-            <View style={styles.featureIcon}>
-              <Ionicons name="nutrition-outline" size={24} color={COLORS.primary} />
-            </View>
-            <View style={styles.featureText}>
-              <Text style={styles.featureTitle}>Nutrition Data Scanning</Text>
-              <Text style={styles.featureDescription}>
-                Instantly extract and analyze nutrition facts from food labels
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.featureItem}>
-            <View style={styles.featureIcon}>
-              <Ionicons name="list-outline" size={24} color={COLORS.primary} />
-            </View>
-            <View style={styles.featureText}>
-              <Text style={styles.featureTitle}>Ingredient Analysis</Text>
-              <Text style={styles.featureDescription}>
-                Scan and understand ingredient lists from food packaging
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.featureItem}>
-            <View style={styles.featureIcon}>
-              <Ionicons name="time-outline" size={24} color={COLORS.primary} />
-            </View>
-            <View style={styles.featureText}>
-              <Text style={styles.featureTitle}>Scan History</Text>
-              <Text style={styles.featureDescription}>
-                Keep track of all your scanned products in one place
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Getting Started */}
-        <View style={styles.gettingStartedContainer}>
-          <Text style={styles.gettingStartedTitle}>Getting Started</Text>
-          <Text style={styles.gettingStartedText}>
-            Tap the <Text style={styles.bold}>scan icon</Text> below to choose what you want to scan, then point your camera at any nutrition label or ingredient list!
+        {/* Info Section */}
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoTitle}>Track Your Daily Nutrition</Text>
+          <Text style={styles.infoText}>
+            Scan food items to add their nutrition values to your daily intake. Monitor your progress throughout the day and maintain a balanced diet.
           </Text>
         </View>
       </View>
@@ -91,120 +62,40 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 40,
   },
-  logoContainer: {
-    alignItems: 'center',
-    marginTop: 20,
+  welcomeContainer: {
     marginBottom: 20,
-  },
-  logoCircle: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: '#E8F5E8',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  appName: {
-    fontSize: 36,
+  welcomeText: {
+    fontSize: 32,
     fontWeight: 'bold',
     color: COLORS.primary,
     textAlign: 'center',
-    marginBottom: 8,
   },
-  tagline: {
-    fontSize: SIZES.body2,
-    color: '#666',
+  infoContainer: {
+    backgroundColor: COLORS.white,
+    borderRadius: 12,
+    padding: 20,
+    marginTop: 20,
+    marginHorizontal: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  infoTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: COLORS.text.primary,
+    marginBottom: 12,
     textAlign: 'center',
-    marginBottom: 30,
-    fontStyle: 'italic',
   },
-  descriptionContainer: {
-    backgroundColor: COLORS.white,
-    borderRadius: 12,
-    padding: 20,
-    marginBottom: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  descriptionTitle: {
-    fontSize: SIZES.h3,
-    fontWeight: '600',
-    color: COLORS.text,
-    marginBottom: 12,
-  },
-  description: {
-    fontSize: SIZES.body3,
-    color: '#666',
+  infoText: {
+    fontSize: 14,
+    color: COLORS.text.secondary,
     lineHeight: 22,
-  },
-  featuresContainer: {
-    backgroundColor: COLORS.white,
-    borderRadius: 12,
-    padding: 20,
-    marginBottom: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  featuresTitle: {
-    fontSize: SIZES.h3,
-    fontWeight: '600',
-    color: COLORS.text,
-    marginBottom: 16,
-  },
-  featureItem: {
-    flexDirection: 'row',
-    marginBottom: 20,
-    alignItems: 'flex-start',
-  },
-  featureIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: '#E8F5E8',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  featureText: {
-    flex: 1,
-  },
-  featureTitle: {
-    fontSize: SIZES.body2,
-    fontWeight: '600',
-    color: COLORS.text,
-    marginBottom: 4,
-  },
-  featureDescription: {
-    fontSize: SIZES.body3,
-    color: '#666',
-    lineHeight: 20,
-  },
-  gettingStartedContainer: {
-    backgroundColor: '#E8F5E8',
-    borderRadius: 12,
-    padding: 20,
-    borderLeftWidth: 4,
-    borderLeftColor: COLORS.primary,
-  },
-  gettingStartedTitle: {
-    fontSize: SIZES.h3,
-    fontWeight: '600',
-    color: COLORS.text,
-    marginBottom: 12,
-  },
-  gettingStartedText: {
-    fontSize: SIZES.body3,
-    color: '#666',
-    lineHeight: 22,
-  },
-  bold: {
-    fontWeight: '700',
-    color: COLORS.primary,
+    textAlign: 'center',
   },
 });
