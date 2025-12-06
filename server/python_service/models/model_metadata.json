@@ -1,0 +1,59 @@
+{
+  "hypertension_model": {
+    "metrics": {
+      "train_accuracy": 1.0,
+      "test_accuracy": 0.8031799163179917,
+      "precision": 0.7627251370399374,
+      "recall": 0.7736298649722002,
+      "f1_score": 0.7681388012618297,
+      "roc_auc": 0.8786288620687198,
+      "brier_score": 0.13895358995815899
+    },
+    "training_samples": 23900,
+    "test_samples": 5975,
+    "features": [
+      "ridageyr",
+      "bmi",
+      "calories",
+      "fat",
+      "protein",
+      "carbs",
+      "sugar",
+      "gender_encoded"
+    ],
+    "model_config": {
+      "n_estimators": 100,
+      "class_weight": "balanced",
+      "random_state": 42
+    }
+  },
+  "diabetes_model": {
+    "metrics": {
+      "train_accuracy": 0.9994142259414226,
+      "test_accuracy": 0.9526359832635983,
+      "precision": 0.8445692883895131,
+      "recall": 0.6927803379416283,
+      "f1_score": 0.7611814345991561,
+      "roc_auc": 0.9592853161234927,
+      "brier_score": 0.03825233020714118
+    },
+    "training_samples": 23900,
+    "test_samples": 5975,
+    "features": [
+      "ridageyr",
+      "bmi",
+      "calories",
+      "fat",
+      "protein",
+      "carbs",
+      "sugar",
+      "hba1c",
+      "gender_encoded"
+    ],
+    "model_config": {
+      "n_estimators": 100,
+      "class_weight": "balanced",
+      "random_state": 42
+    }
+  }
+}
