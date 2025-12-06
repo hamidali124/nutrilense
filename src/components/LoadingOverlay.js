@@ -5,15 +5,14 @@ import { COLORS, SIZES, SHADOW_STYLES } from '../constants';
 /**
  * Loading Overlay Component
  */
-export const LoadingOverlay = ({ visible, title = "Processing Image", subtitle = "Extracting nutrition information..." }) => {
+export const LoadingOverlay = ({ visible }) => {
   if (!visible) return null;
 
   return (
     <View style={styles.loadingOverlay}>
       <View style={styles.loadingContent}>
-        <ActivityIndicator size="large" color={COLORS.primary} />
-        <Text style={styles.loadingTitle}>{title}</Text>
-        <Text style={styles.loadingSubtitle}>{subtitle}</Text>
+        <ActivityIndicator size="small" color={COLORS.primary} />
+        <Text style={styles.loadingText}>Calculating NutriScore...</Text>
       </View>
     </View>
   );
@@ -32,22 +31,18 @@ const styles = StyleSheet.create({
     zIndex: 1000,
   },
   loadingContent: {
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: COLORS.white,
-    padding: 40,
-    borderRadius: 20,
+    padding: 24,
+    borderRadius: 16,
+    gap: 12,
     ...SHADOW_STYLES.medium,
   },
-  loadingTitle: {
-    fontSize: SIZES.fontSize.xlarge,
-    fontWeight: '600',
-    color: COLORS.primaryDark,
-    marginTop: 20,
-    marginBottom: 8,
-  },
-  loadingSubtitle: {
-    fontSize: SIZES.fontSize.medium,
-    color: COLORS.text.secondary,
-    textAlign: 'center',
+  loadingText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: COLORS.text.primary,
   },
 });
