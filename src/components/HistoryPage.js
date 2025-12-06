@@ -4,7 +4,6 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  Image,
   StyleSheet,
   Alert,
   RefreshControl,
@@ -25,7 +24,7 @@ export const HistoryPage = ({ navigation }) => {
   const [filteredData, setFilteredData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [activeFilter, setActiveFilter] = useState('all'); // 'all', 'nutrition', 'ingredients'
+  const [activeFilter, setActiveFilter] = useState('all');
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -78,6 +77,37 @@ export const HistoryPage = ({ navigation }) => {
     setSelectedItem(null);
   };
 
+  const getGradeColor = (grade) => {
+    switch (grade) {
+      case 'A': return '#00A651';
+      case 'B': return '#85BB2F';
+      case 'C': return '#FECB00';
+      case 'D': return '#EE8100';
+      case 'E': return '#E63E11';
+      default: return COLORS.text.secondary;
+    }
+  };
+
+  const getNutriScore = (item) => {
+    // Check all possible locations for NutriScore
+    return item.nutriScore || 
+           item.nutritionData?.nutriScore || 
+           item.nutritionData?.nutriscore || 
+           null;
+  };
+
+  const getNutriScoreDisplay = (nutriScore) => {
+    if (!nutriScore || nutriScore.error || !nutriScore.grade) return null;
+    
+    const score = nutriScore.combinedScore_rounded || 
+                  nutriScore.roundedScore ||
+                  (nutriScore.combinedScore ? Math.round(nutriScore.combinedScore) : null) ||
+                  (nutriScore.euScore ? Math.round(nutriScore.euScore) : null) ||
+                  'N/A';
+    
+    return { grade: nutriScore.grade, score };
+  };
+
   const renderFilterButtons = () => {
     const filters = [
       { key: 'all', label: 'All', icon: 'albums-outline' },
@@ -113,10 +143,100 @@ export const HistoryPage = ({ navigation }) => {
     );
   };
 
+  const renderHistoryItem = ({ item }) => {
+    const isNutrition = !!item.nutritionData;
+    const isIngredient = !!item.ingredientData;
+    const nutriScore = getNutriScore(item);
+    const nutriScoreDisplay = getNutriScoreDisplay(nutriScore);
+    
+    return (
+      <TouchableOpacity
+        style={styles.historyItem}
+        onPress={() => handleItemPress(item)}
+      >
+        <View style={styles.itemHeader}>
+          <View style={styles.itemTypeRow}>
+            <Ionicons 
+              name={isNutrition ? "nutrition-outline" : "list-outline"} 
+              size={20} 
+              color={COLORS.primary} 
+            />
+            <View style={[
+              styles.typeBadge,
+              { backgroundColor: isNutrition ? COLORS.primary : COLORS.secondary }
+            ]}>
+              <Text style={styles.typeBadgeText}>
+                {isNutrition ? 'Nutrition' : 'Ingredients'}
+              </Text>
+            </View>
+          </View>
+          <Text style={styles.itemDate}>{item.date}</Text>
+        </View>
+
+        <View style={styles.itemContent}>
+          {isNutrition && item.nutritionData && (
+            <View style={styles.nutritionPreview}>
+              {nutriScoreDisplay && (
+                <View style={[styles.nutriscoreBadge, { backgroundColor: getGradeColor(nutriScoreDisplay.grade) + '20' }]}>
+                  <Text style={[styles.nutriscoreGrade, { color: getGradeColor(nutriScoreDisplay.grade) }]}>
+                    {nutriScoreDisplay.grade}
+                  </Text>
+                  <Text style={styles.nutriscoreScore}>
+                    {nutriScoreDisplay.score}/10
+                  </Text>
+                </View>
+              )}
+              {item.nutritionData.calories?.total && (
+                <Text style={styles.previewText}>
+                  Calories: {item.nutritionData.calories.total}
+                </Text>
+              )}
+              {item.nutritionData.servingInfo?.servingSize && (
+                <Text style={styles.previewText}>
+                  Serving: {item.nutritionData.servingInfo.servingSize}
+                </Text>
+              )}
+            </View>
+          )}
+
+          {isIngredient && item.ingredientData && (
+            <View style={styles.ingredientPreview}>
+              <Text style={styles.previewText}>
+                {item.ingredientData.totalCount} ingredient{item.ingredientData.totalCount !== 1 ? 's' : ''} found
+              </Text>
+              {item.ingredientData.ingredients.slice(0, 3).map((ingredient, index) => (
+                <Text key={index} style={styles.ingredientPreviewItem}>
+                  {ingredient.order}. {ingredient.name}
+                </Text>
+              ))}
+              {item.ingredientData.totalCount > 3 && (
+                <Text style={styles.moreText}>
+                  +{item.ingredientData.totalCount - 3} more...
+                </Text>
+              )}
+            </View>
+          )}
+        </View>
+
+        <View style={styles.itemFooter}>
+          <Text style={styles.itemTime}>{item.time}</Text>
+          <TouchableOpacity
+            style={styles.deleteButton}
+            onPress={() => handleDeleteItem(item.id)}
+          >
+            <Ionicons name="trash-outline" size={18} color="#ff4757" />
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
   const renderNutritionModal = (item) => {
     if (!item.nutritionData) return null;
 
     const nutrition = item.nutritionData;
+    const nutriScore = getNutriScore(item);
+    const nutriScoreDisplay = getNutriScoreDisplay(nutriScore);
     
     return (
       <ScrollView style={styles.modalContent}>
@@ -125,7 +245,27 @@ export const HistoryPage = ({ navigation }) => {
           <Text style={styles.modalDate}>{item.date} at {item.time}</Text>
         </View>
 
-        {/* Calories */}
+        {nutriScoreDisplay && (
+          <View style={styles.nutritionSection}>
+            <Text style={styles.sectionTitle}>Nutri-Score</Text>
+            <View style={styles.nutriscoreDisplay}>
+              <View style={[styles.nutriscoreBadgeLarge, { borderColor: getGradeColor(nutriScoreDisplay.grade) }]}>
+                <Text style={[styles.nutriscoreGradeLarge, { color: getGradeColor(nutriScoreDisplay.grade) }]}>
+                  {nutriScoreDisplay.grade}
+                </Text>
+                <Text style={styles.nutriscoreScoreLarge}>
+                  {nutriScoreDisplay.score}/10
+                </Text>
+              </View>
+              {nutriScore?.euScore && nutriScore?.combinedScore && (
+                <Text style={styles.nutriscoreDetails}>
+                  EU: {Math.round(nutriScore.euScore)} | Combined: {Math.round(nutriScore.combinedScore)}
+                </Text>
+              )}
+            </View>
+          </View>
+        )}
+
         {nutrition.calories && (
           <View style={styles.nutritionSection}>
             <Text style={styles.sectionTitle}>Calories</Text>
@@ -146,7 +286,6 @@ export const HistoryPage = ({ navigation }) => {
           </View>
         )}
 
-        {/* Serving Info */}
         {nutrition.servingInfo && (
           <View style={styles.nutritionSection}>
             <Text style={styles.sectionTitle}>Serving Information</Text>
@@ -165,18 +304,22 @@ export const HistoryPage = ({ navigation }) => {
           </View>
         )}
 
-        {/* Macronutrients */}
         {nutrition.macronutrients && Object.keys(nutrition.macronutrients).length > 0 && (
           <View style={styles.nutritionSection}>
             <Text style={styles.sectionTitle}>Macronutrients</Text>
-            {Object.entries(nutrition.macronutrients).map(([key, value]) => (
-              <View key={key} style={styles.nutritionItem}>
-                <Text style={styles.nutritionLabel}>{formatNutrientName(key)}</Text>
-                <Text style={styles.nutritionValue}>
-                  {value.value}{value.unit ? ` ${value.unit}` : ''}
-                </Text>
-              </View>
-            ))}
+            {Object.entries(nutrition.macronutrients).map(([key, value]) => {
+              if (!value || (typeof value === 'object' && !value.value)) return null;
+              const displayValue = typeof value === 'object' ? value.value : value;
+              const unit = typeof value === 'object' && value.unit ? ` ${value.unit}` : '';
+              return (
+                <View key={key} style={styles.nutritionItem}>
+                  <Text style={styles.nutritionLabel}>{formatNutrientName(key)}</Text>
+                  <Text style={styles.nutritionValue}>
+                    {displayValue}{unit}
+                  </Text>
+                </View>
+              );
+            })}
           </View>
         )}
       </ScrollView>
@@ -254,82 +397,6 @@ export const HistoryPage = ({ navigation }) => {
           },
         },
       ]
-    );
-  };
-
-  const renderHistoryItem = ({ item }) => {
-    const isNutrition = !!item.nutritionData;
-    const isIngredient = !!item.ingredientData;
-    
-    return (
-      <TouchableOpacity
-        style={styles.historyItem}
-        onPress={() => handleItemPress(item)}
-      >
-        <View style={styles.itemHeader}>
-          <View style={styles.itemTypeRow}>
-            <Ionicons 
-              name={isNutrition ? "nutrition-outline" : "list-outline"} 
-              size={20} 
-              color={COLORS.primary} 
-            />
-            <View style={[
-              styles.typeBadge,
-              { backgroundColor: isNutrition ? COLORS.primary : COLORS.secondary }
-            ]}>
-              <Text style={styles.typeBadgeText}>
-                {isNutrition ? 'Nutrition' : 'Ingredients'}
-              </Text>
-            </View>
-          </View>
-          <Text style={styles.itemDate}>{item.date}</Text>
-        </View>
-
-        <View style={styles.itemContent}>
-          {isNutrition && item.nutritionData && (
-            <View style={styles.nutritionPreview}>
-              {item.nutritionData.calories?.total && (
-                <Text style={styles.previewText}>
-                  Calories: {item.nutritionData.calories.total}
-                </Text>
-              )}
-              {item.nutritionData.servingInfo?.servingSize && (
-                <Text style={styles.previewText}>
-                  Serving: {item.nutritionData.servingInfo.servingSize}
-                </Text>
-              )}
-            </View>
-          )}
-
-          {isIngredient && item.ingredientData && (
-            <View style={styles.ingredientPreview}>
-              <Text style={styles.previewText}>
-                {item.ingredientData.totalCount} ingredient{item.ingredientData.totalCount !== 1 ? 's' : ''} found
-              </Text>
-              {item.ingredientData.ingredients.slice(0, 3).map((ingredient, index) => (
-                <Text key={index} style={styles.ingredientPreviewItem}>
-                  {ingredient.order}. {ingredient.name}
-                </Text>
-              ))}
-              {item.ingredientData.totalCount > 3 && (
-                <Text style={styles.moreText}>
-                  +{item.ingredientData.totalCount - 3} more...
-                </Text>
-              )}
-            </View>
-          )}
-        </View>
-
-        <View style={styles.itemFooter}>
-          <Text style={styles.itemTime}>{item.time}</Text>
-          <TouchableOpacity
-            style={styles.deleteButton}
-            onPress={() => handleDeleteItem(item.id)}
-          >
-            <Ionicons name="trash-outline" size={18} color="#ff4757" />
-          </TouchableOpacity>
-        </View>
-      </TouchableOpacity>
     );
   };
 
@@ -414,10 +481,7 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     backgroundColor: 'white',
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 3,
     elevation: 2,
@@ -486,15 +550,19 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 12,
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
     shadowRadius: 8,
     elevation: 3,
     borderWidth: 1,
     borderColor: '#f0f0f0',
+  },
+  itemHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+    flexWrap: 'wrap',
   },
   itemTypeRow: {
     flexDirection: 'row',
@@ -515,6 +583,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#333',
+  },
+  itemContent: {
+    marginBottom: 8,
   },
   nutritionPreview: {
     gap: 4,
@@ -545,63 +616,6 @@ const styles = StyleSheet.create({
   itemTime: {
     fontSize: 12,
     color: '#666',
-  },
-  thumbnailImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 12,
-    backgroundColor: '#f0f0f0',
-  },
-  itemContent: {
-    flex: 1,
-    marginLeft: 16,
-    marginRight: 8,
-  },
-  itemHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-    flexWrap: 'wrap',
-  },
-  dateText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-  },
-  timeText: {
-    fontSize: 12,
-    color: '#666',
-  },
-  nutritionBadge: {
-    backgroundColor: '#e8f5e8',
-    borderRadius: 12,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    marginLeft: 8,
-  },
-  nutritionBadgeText: {
-    fontSize: 10,
-    color: '#2e7d32',
-    fontWeight: '500',
-  },
-  nutritionSummary: {
-    gap: 4,
-  },
-  caloriesText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#2e7d32',
-  },
-  servingText: {
-    fontSize: 12,
-    color: '#666',
-  },
-  extractedText: {
-    fontSize: 13,
-    lineHeight: 18,
-    color: '#555',
-    flex: 1,
   },
   deleteButton: {
     width: 36,
@@ -678,11 +692,6 @@ const styles = StyleSheet.create({
     color: '#666',
     marginBottom: 8,
   },
-  ingredientCount: {
-    fontSize: 14,
-    color: COLORS.primary,
-    fontWeight: '600',
-  },
   nutritionSection: {
     marginBottom: 20,
   },
@@ -718,58 +727,52 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#333',
   },
-  ingredientsGrid: {
-    gap: 8,
-  },
-  ingredientCard: {
-    backgroundColor: '#f8f9fa',
+  nutriscoreBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
     borderRadius: 12,
-    padding: 12,
-    borderLeftWidth: 3,
-    borderLeftColor: COLORS.primary,
+    marginBottom: 8,
+    gap: 6,
+    alignSelf: 'flex-start',
   },
-  ingredientHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 6,
+  nutriscoreGrade: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
-  ingredientNumber: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: COLORS.primary,
-    backgroundColor: 'white',
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    textAlign: 'center',
-    lineHeight: 20,
-    marginRight: 8,
-  },
-  ingredientName: {
+  nutriscoreScore: {
     fontSize: 14,
-    fontWeight: '600',
     color: '#333',
-    flex: 1,
+    fontWeight: '500',
   },
-  ingredientMeta: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  nutriscoreDisplay: {
     alignItems: 'center',
+    marginVertical: 8,
   },
-  eNumberBadge: {
-    backgroundColor: '#ff6b6b',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 8,
+  nutriscoreBadgeLarge: {
+    backgroundColor: COLORS.white,
+    borderRadius: 12,
+    padding: 16,
+    borderWidth: 2,
+    alignItems: 'center',
+    marginBottom: 8,
+    minWidth: 120,
   },
-  eNumberText: {
-    fontSize: 10,
-    color: 'white',
-    fontWeight: '600',
+  nutriscoreGradeLarge: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    marginBottom: 4,
   },
-  confidenceText: {
-    fontSize: 11,
-    color: '#666',
+  nutriscoreScoreLarge: {
+    fontSize: 16,
+    color: COLORS.text.secondary,
+    fontWeight: '500',
+  },
+  nutriscoreDetails: {
+    fontSize: 12,
+    color: COLORS.text.secondary,
     fontStyle: 'italic',
+    marginTop: 4,
   },
 });
