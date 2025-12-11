@@ -1,16 +1,17 @@
 {
   "hypertension_model": {
     "metrics": {
-      "train_accuracy": 1.0,
+      "train_accuracy": 0.8526205049732212,
       "test_accuracy": 0.8031799163179917,
-      "precision": 0.7627251370399374,
-      "recall": 0.7736298649722002,
-      "f1_score": 0.7681388012618297,
-      "roc_auc": 0.8786288620687198,
-      "brier_score": 0.13895358995815899
+      "precision": 0.708041958041958,
+      "recall": 0.8038904327113934,
+      "f1_score": 0.7529280535415505,
+      "roc_auc": 0.8594913542813696,
+      "brier_score": 0.15180675024185736
     },
-    "training_samples": 23900,
-    "test_samples": 5975,
+    "training_samples": 20912,
+    "validation_samples": 2987,
+    "test_samples": 5976,
     "features": [
       "ridageyr",
       "bmi",
@@ -21,24 +22,31 @@
       "sugar",
       "gender_encoded"
     ],
-    "model_config": {
+    "best_hyperparameters": {
+      "class_weight": "balanced",
+      "random_state": 42,
       "n_estimators": 100,
+      "max_depth": 15,
+      "min_samples_leaf": 7
+    },
+    "base_config": {
       "class_weight": "balanced",
       "random_state": 42
     }
   },
   "diabetes_model": {
     "metrics": {
-      "train_accuracy": 0.9994142259414226,
-      "test_accuracy": 0.9526359832635983,
-      "precision": 0.8445692883895131,
-      "recall": 0.6927803379416283,
-      "f1_score": 0.7611814345991561,
-      "roc_auc": 0.9592853161234927,
-      "brier_score": 0.03825233020714118
+      "train_accuracy": 0.9692042846212701,
+      "test_accuracy": 0.9441097724230254,
+      "precision": 0.8202020202020202,
+      "recall": 0.6236559139784946,
+      "f1_score": 0.7085514834205934,
+      "roc_auc": 0.9482487758089757,
+      "brier_score": 0.0426869539191294
     },
-    "training_samples": 23900,
-    "test_samples": 5975,
+    "training_samples": 20912,
+    "validation_samples": 2987,
+    "test_samples": 5976,
     "features": [
       "ridageyr",
       "bmi",
@@ -50,8 +58,14 @@
       "hba1c",
       "gender_encoded"
     ],
-    "model_config": {
+    "best_hyperparameters": {
+      "class_weight": "balanced",
+      "random_state": 42,
       "n_estimators": 100,
+      "max_depth": 15,
+      "min_samples_leaf": 3
+    },
+    "base_config": {
       "class_weight": "balanced",
       "random_state": 42
     }
