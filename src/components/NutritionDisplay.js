@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { NutritionFormatter } from '../models/nutritionModels';
 import { NutritionParser } from '../services/nutritionParser';
 import { COLORS, SIZES } from '../constants';
@@ -223,12 +224,76 @@ export const NutritionDisplay = ({ nutritionData }) => {
     );
   };
 
+  const renderNutriScore = () => {
+    if (!nutritionData.nutriscore) return null;
+
+    const nutriscore = nutritionData.nutriscore;
+    
+    // If there's an error, don't show anything
+    if (nutriscore.error) return null;
+
+    // Use combined score (preferred) or fallback to euScore or old score format
+    const score = nutriscore.combinedScore_rounded || 
+                  Math.round(nutriscore.combinedScore || nutriscore.euScore || nutriscore.score || 0);
+    const grade = nutriscore.grade || 'N/A';
+
+    // Color based on grade
+    const getGradeColor = (grade) => {
+      switch (grade) {
+        case 'A': return '#00A651'; // Green
+        case 'B': return '#85BB2F'; // Light Green
+        case 'C': return '#FECB00'; // Yellow
+        case 'D': return '#EE8100'; // Orange
+        case 'E': return '#E63E11'; // Red
+        default: return COLORS.text.secondary;
+      }
+    };
+
+    const gradeColor = getGradeColor(grade);
+
+    return (
+      <View style={styles.nutriscoreContainer}>
+        <View style={[styles.nutriscoreBadge, { borderColor: gradeColor }]}>
+          <View style={styles.nutriscoreHeader}>
+            <Ionicons name="shield-checkmark" size={24} color={gradeColor} />
+            <Text style={styles.nutriscoreLabel}>Nutri-Score</Text>
+          </View>
+          <View style={styles.nutriscoreContent}>
+            <Text style={[styles.nutriscoreGrade, { color: gradeColor }]}>
+              {grade}
+            </Text>
+            <Text style={styles.nutriscoreScore}>
+              {score}/10
+            </Text>
+          </View>
+          {nutriscore.euScore && nutriscore.combinedScore && (
+            <Text style={styles.nutriscoreDetails}>
+              EU: {Math.round(nutriscore.euScore)} | Combined: {Math.round(nutriscore.combinedScore)}
+            </Text>
+          )}
+          <Text style={styles.nutriscoreSubtext}>
+            {score >= 9 ? 'Excellent' : 
+             score >= 7 ? 'Good' : 
+             score >= 5 ? 'Fair' : 
+             score >= 3 ? 'Poor' : 'Very Poor'}
+          </Text>
+        {nutriscore.breakdown?.adjustment_note && (
+          <Text style={styles.nutriscoreAdjustmentNote}>
+            {nutriscore.breakdown.adjustment_note}
+          </Text>
+        )}
+        </View>
+      </View>
+    );
+  };
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.header}>
         <Text style={styles.title}>Nutrition Facts</Text>
       </View>
 
+      {renderNutriScore()}
       {renderServingInfo()}
       {renderNutritionTable()}
 
@@ -279,6 +344,61 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: COLORS.text,
+    textAlign: 'center',
+  },
+  // NutriScore Badge
+  nutriscoreContainer: {
+    marginHorizontal: 16,
+    marginBottom: 16,
+  },
+  nutriscoreBadge: {
+    backgroundColor: COLORS.white,
+    borderRadius: 16,
+    padding: 20,
+    borderWidth: 3,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  nutriscoreHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  nutriscoreLabel: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: COLORS.text.primary,
+    marginLeft: 8,
+  },
+  nutriscoreContent: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    marginBottom: 8,
+  },
+  nutriscoreGrade: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    marginRight: 12,
+  },
+  nutriscoreScore: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: COLORS.text.secondary,
+  },
+  nutriscoreSubtext: {
+    fontSize: 14,
+    color: COLORS.text.secondary,
+    fontStyle: 'italic',
+  },
+  nutriscoreAdjustmentNote: {
+    marginTop: 8,
+    fontSize: 12,
+    color: COLORS.text.secondary,
+    lineHeight: 16,
     textAlign: 'center',
   },
   // Serving Information Card
@@ -538,5 +658,59 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.textLight,
     lineHeight: 20,
+  },
+  nutriscoreContainer: {
+    marginHorizontal: 16,
+    marginBottom: 16,
+  },
+  nutriscoreBadge: {
+    backgroundColor: COLORS.white,
+    borderRadius: 12,
+    padding: 16,
+    borderWidth: 2,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  nutriscoreHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+    gap: 8,
+  },
+  nutriscoreLabel: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: COLORS.text,
+  },
+  nutriscoreContent: {
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  nutriscoreGrade: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  nutriscoreScore: {
+    fontSize: 16,
+    color: COLORS.textLight,
+    fontWeight: '500',
+  },
+  nutriscoreDetails: {
+    fontSize: 11,
+    color: COLORS.textLight,
+    marginTop: 4,
+    textAlign: 'center',
+    fontStyle: 'italic',
+  },
+  nutriscoreSubtext: {
+    fontSize: 12,
+    color: COLORS.textLight,
+    marginTop: 4,
+    textAlign: 'center',
   },
 });
