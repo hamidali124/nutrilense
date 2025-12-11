@@ -5,21 +5,7 @@ const axios = require('axios');
 // Python service URL (defaults to localhost:5000)
 const PYTHON_SERVICE_URL = process.env.PYTHON_SERVICE_URL || 'http://localhost:5000';
 
-/**
- * POST /api/nutrition/calculate-eu-nutriscore
- * Calculate EU Nutri-Score for a single item (per 100g)
- * 
- * Request body:
- * {
- *   calories: number (kcal),
- *   sugars: number (g),
- *   saturatedFat: number (g),
- *   sodium: number (mg),
- *   fiber: number (g),
- *   protein: number (g),
- *   servingSize: number (g) - optional, for normalization
- * }
- */
+
 router.post('/calculate-eu-nutriscore', async (req, res) => {
   try {
     const {
@@ -107,39 +93,7 @@ router.post('/calculate-eu-nutriscore', async (req, res) => {
   }
 });
 
-/**
- * POST /api/nutrition/calculate-scan-nutriscore
- * Calculate combined Nutri-Score for a scanned item
- * Combines EU NutriScore (70%) with model predictions (30%)
- * 
- * Request body:
- * {
- *   item_nutrition: {
- *     calories: number (kcal),
- *     sugars: number (g),
- *     saturatedFat: number (g),
- *     sodium: number (mg),
- *     fiber: number (g),
- *     protein: number (g),
- *     servingSize: number (g) - optional
- *   },
- *   user_profile: {
- *     age: number,
- *     bmi: number,
- *     gender: string ('male' | 'female' | 'other'),
- *     hba1c: number - optional
- *   },
- *   previous_days_nutrition: {
- *     calories: number,
- *     fat: number,
- *     protein: number,
- *     carbs: number,
- *     sugar: number,
- *     fiber: number,
- *     sodium: number
- *   }
- * }
- */
+
 router.post('/calculate-scan-nutriscore', async (req, res) => {
   try {
     const { item_nutrition, user_profile, previous_days_nutrition } = req.body;
@@ -251,7 +205,6 @@ router.post('/calculate-scan-nutriscore', async (req, res) => {
 
 /**
  * GET /api/nutrition/nutriscore-health
- * Check if Python NutriScore service is available
  */
 router.get('/nutriscore-health', async (req, res) => {
   try {
