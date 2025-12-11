@@ -1,6 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AuthService from './authService';
 
-const HISTORY_KEY = '@nutrilens_scan_history';
+// Get user-specific storage key
+const getHistoryKey = async () => {
+  const user = await AuthService.getUser();
+  const userId = user?.id || 'anonymous';
+  return `@nutrilens_scan_history_${userId}`;
+};
 
 export class HistoryService {
   /**
@@ -8,12 +14,23 @@ export class HistoryService {
    */
   static async saveScan(imageUri, extractedText, nutritionData = null, ingredientData = null) {
     try {
+      // Extract NutriScore from nutritionData for easy access (check both camelCase and lowercase)
+      const nutriScore = nutritionData?.nutriScore || nutritionData?.nutriscore || null;
+      const nutriScoreSummary = nutriScore && !nutriScore.error ? {
+        euScore: nutriScore.euScore || null,
+        combinedScore: nutriScore.combinedScore || null,
+        combinedScore_rounded: nutriScore.combinedScore_rounded || null,
+        grade: nutriScore.grade || null,
+        breakdown: nutriScore.breakdown || null
+      } : null;
+
       const scanItem = {
         id: Date.now().toString(),
         imageUri,
         extractedText,
         nutritionData, // Store structured nutrition data if available
         ingredientData, // Store ingredient data if available
+        nutriScore: nutriScoreSummary, // Store NutriScore separately for easy access
         hasNutritionData: !!nutritionData, // Boolean flag for quick filtering
         hasIngredientData: !!ingredientData, // Boolean flag for ingredient filtering
         type: nutritionData ? 'nutrition' : (ingredientData ? 'ingredients' : 'text'), // Scan type
@@ -25,7 +42,8 @@ export class HistoryService {
       const existingHistory = await this.getHistory();
       const updatedHistory = [scanItem, ...existingHistory];
 
-      await AsyncStorage.setItem(HISTORY_KEY, JSON.stringify(updatedHistory));
+      const historyKey = await getHistoryKey();
+      await AsyncStorage.setItem(historyKey, JSON.stringify(updatedHistory));
       return scanItem;
     } catch (error) {
       console.error('Error saving scan to history:', error);
@@ -38,7 +56,8 @@ export class HistoryService {
    */
   static async getHistory() {
     try {
-      const historyJson = await AsyncStorage.getItem(HISTORY_KEY);
+      const historyKey = await getHistoryKey();
+      const historyJson = await AsyncStorage.getItem(historyKey);
       return historyJson ? JSON.parse(historyJson) : [];
     } catch (error) {
       console.error('Error getting scan history:', error);
@@ -92,7 +111,8 @@ export class HistoryService {
     try {
       const history = await this.getHistory();
       const updatedHistory = history.filter(item => item.id !== scanId);
-      await AsyncStorage.setItem(HISTORY_KEY, JSON.stringify(updatedHistory));
+      const historyKey = await getHistoryKey();
+      await AsyncStorage.setItem(historyKey, JSON.stringify(updatedHistory));
       return updatedHistory;
     } catch (error) {
       console.error('Error deleting scan from history:', error);
@@ -105,7 +125,8 @@ export class HistoryService {
    */
   static async clearHistory() {
     try {
-      await AsyncStorage.removeItem(HISTORY_KEY);
+      const historyKey = await getHistoryKey();
+      await AsyncStorage.removeItem(historyKey);
     } catch (error) {
       console.error('Error clearing history:', error);
       throw error;
