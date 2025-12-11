@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { TopBar, HomePage, ScannerPage, HistoryPage, BottomBar } from '../components';
 import { useScanner } from '../hooks';
 import { COLORS } from '../constants';
+import { NutritionTrackerService } from '../services/nutritionTrackerService';
 
 /**
  * Home Screen Component - Main navigation container
  */
-export const HomeScreen = () => {
+export const HomeScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState('home');
   const [scanMode, setScanMode] = useState(null); // 'nutrition' or 'ingredients'
+  const [homeRefreshKey, setHomeRefreshKey] = useState(0);
   
   const {
     hasPermission,
@@ -25,7 +27,6 @@ export const HomeScreen = () => {
     pickImage,
     clearResults,
     setScanMode: setHookScanMode,
-    toggleOCRService,
     requestPermissions
   } = useScanner(scanMode);
 
@@ -34,14 +35,21 @@ export const HomeScreen = () => {
     takePhoto();
   };
 
-  const handleScanModeSelect = (mode) => {
+  const handleScanModeSelect = async (mode) => {
     setScanMode(mode);
     setHookScanMode(mode); // Update the hook's scan mode
-    if (mode) {
+    if (mode && mode !== 'manual') {
       clearResults(); // Clear previous results when selecting a new mode
       // Pass the mode directly to takePhoto to ensure immediate processing with correct mode
       console.log(`Scan mode selected: ${mode}, starting camera...`);
-      takePhoto(mode); // Pass mode directly to avoid state sync issues
+      const result = await takePhoto(mode);
+      // If photo capture fails or is cancelled (returns null), reset scanMode to show mode selection
+      if (!result) {
+        setScanMode(null);
+        setHookScanMode(null);
+      }
+    } else if (mode === 'manual') {
+      clearResults(); // Clear previous results when selecting manual mode
     }
   };
 
@@ -50,6 +58,10 @@ export const HomeScreen = () => {
     if (tab !== 'scanner') {
       setScanMode(null); // Reset scan mode when leaving scanner tab
     }
+    // Refresh home page when switching to home tab
+    if (tab === 'home') {
+      setHomeRefreshKey(prev => prev + 1);
+    }
   };
 
   const handleBottomBarScan = () => {
@@ -57,6 +69,17 @@ export const HomeScreen = () => {
     setActiveTab('scanner');
     clearResults();
     setScanMode(null);
+  };
+
+  const handleConsumeNutrition = async (nutritionData) => {
+    try {
+      await NutritionTrackerService.addNutrition(nutritionData);
+      Alert.alert('Success', 'Nutrition added to your daily intake!');
+      // Dashboard will auto-refresh when user navigates to home tab
+    } catch (error) {
+      console.error('Error adding nutrition:', error);
+      Alert.alert('Error', 'Failed to add nutrition to daily intake');
+    }
   };
 
   if (hasPermission === null) {
@@ -84,11 +107,11 @@ export const HomeScreen = () => {
       
       <TopBar 
         ocrService={ocrService}
-        onToggleOCR={toggleOCRService}
+        onProfilePress={() => navigation?.navigate('Profile')}
       />
       
       <View style={styles.mainContent}>
-        {activeTab === 'home' && <HomePage />}
+        {activeTab === 'home' && <HomePage key={homeRefreshKey} />}
         
         {activeTab === 'scanner' && (
           <ScannerPage
@@ -102,6 +125,7 @@ export const HomeScreen = () => {
             scannedText={scannedText}
             onRescan={handleRescan}
             onClear={clearResults}
+            onConsumeNutrition={handleConsumeNutrition}
           />
         )}
         
