@@ -71,11 +71,18 @@ export const NutriScoreModal = ({ visible, nutriScore, onClose }) => {
     }
   };
 
-  const score = nutriScore.combinedScore_rounded || 
-               nutriScore.roundedScore ||
-               (nutriScore.combinedScore ? Math.round(nutriScore.combinedScore) : null) ||
-               (nutriScore.euScore ? Math.round(nutriScore.euScore) : null) ||
-               'N/A';
+  const score = (() => {
+    if (nutriScore.combinedScore !== undefined && nutriScore.combinedScore !== null) {
+      return parseFloat(nutriScore.combinedScore).toFixed(1);
+    }
+    if (nutriScore.euScore !== undefined && nutriScore.euScore !== null) {
+      return parseFloat(nutriScore.euScore).toFixed(1);
+    }
+    if (nutriScore.score !== undefined && nutriScore.score !== null) {
+      return parseFloat(nutriScore.score).toFixed(1);
+    }
+    return 'N/A';
+  })();
 
   const gradeColor = getGradeColor(nutriScore.grade);
 
@@ -119,9 +126,19 @@ export const NutriScoreModal = ({ visible, nutriScore, onClose }) => {
               {getGradeDescription(nutriScore.grade)}
             </Text>
             
-            {nutriScore.euScore !== undefined && nutriScore.combinedScore !== undefined && (
+            {nutriScore.euScore !== undefined && (
               <Text style={styles.nutriscoreDetails}>
-                EU: {Math.round(nutriScore.euScore)} | Combined: {Math.round(nutriScore.combinedScore)}
+                EU-Based Score: {parseFloat(nutriScore.euScore).toFixed(1)}
+              </Text>
+            )}
+            {nutriScore.breakdown?.personalized_score !== undefined && (
+              <Text style={styles.nutriscoreDetails}>
+                Risk-Adjusted Score: {parseFloat(nutriScore.breakdown.personalized_score).toFixed(1)}/10
+              </Text>
+            )}
+            {nutriScore.breakdown?.adjustment_note && (
+              <Text style={styles.nutriscoreAdjustmentNote}>
+                {nutriScore.breakdown.adjustment_note}
               </Text>
             )}
           </View>
@@ -194,6 +211,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.text.secondary,
     marginTop: 8,
+    textAlign: 'center',
+  },
+  nutriscoreAdjustmentNote: {
+    marginTop: 8,
+    fontSize: 12,
+    color: COLORS.text.secondary,
+    lineHeight: 16,
     textAlign: 'center',
   },
   tapToClose: {
