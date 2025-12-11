@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SIZES } from '../constants';
@@ -6,6 +6,9 @@ import { LoadingOverlay } from './LoadingOverlay';
 import { NutritionDisplay } from './NutritionDisplay';
 import { IngredientsDisplay } from './IngredientsDisplay';
 import { NoNutritionFound } from './NoNutritionFound';
+import { ConsumeConfirmationModal } from './ConsumeConfirmationModal';
+import { NutriScoreModal } from './NutriScoreModal';
+import { ManualInputForm } from './ManualInputForm';
 
 /**
  * Scanner Page Component - Shows two scan options and handles scanning flow
@@ -20,10 +23,60 @@ export const ScannerPage = ({
   ingredientData,
   scannedText,
   onRescan,
-  onClear
+  onClear,
+  onConsumeNutrition
 }) => {
-  // If no mode selected, show mode selection screen
-  if (!scanMode && !nutritionData && !ingredientData && !scannedText) {
+  const [showConsumeModal, setShowConsumeModal] = useState(false);
+  const [showNutriScoreModal, setShowNutriScoreModal] = useState(false);
+  const [manualNutritionData, setManualNutritionData] = useState(null);
+
+  // Show NutriScore modal first, then consume modal
+  React.useEffect(() => {
+    const data = manualNutritionData || nutritionData;
+    if ((data && scanMode === 'nutrition') || manualNutritionData) {
+      // Check if NutriScore is available
+      const nutriScore = data?.nutriScore || data?.nutriscore;
+      if (nutriScore && nutriScore.grade && !nutriScore.error) {
+        // Show NutriScore modal first
+        const timer = setTimeout(() => {
+          setShowNutriScoreModal(true);
+        }, 500);
+        return () => clearTimeout(timer);
+      } else {
+        // No NutriScore, show consume modal directly
+        const timer = setTimeout(() => {
+          setShowConsumeModal(true);
+        }, 500);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [nutritionData, scanMode, manualNutritionData]);
+
+  const handleNutriScoreClose = () => {
+    setShowNutriScoreModal(false);
+    // Show consume modal after NutriScore modal closes
+    setTimeout(() => {
+      setShowConsumeModal(true);
+    }, 300);
+  };
+
+  const handleConfirmConsume = async () => {
+    setShowConsumeModal(false);
+    const dataToConsume = manualNutritionData || nutritionData;
+    if (onConsumeNutrition && dataToConsume) {
+      await onConsumeNutrition(dataToConsume);
+      setManualNutritionData(null);
+    }
+  };
+
+  const handleCancelConsume = () => {
+    setShowConsumeModal(false);
+    setManualNutritionData(null);
+  };
+  // If no mode selected OR mode selected but no data and not loading, show mode selection screen
+  // This handles the case when user clicks back from camera - we reset to mode selection
+  const hasNoData = !nutritionData && !ingredientData && !scannedText && !manualNutritionData && !isLoading;
+  if (!scanMode || (scanMode && hasNoData && scanMode !== 'manual')) {
     return (
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.content}>
@@ -66,8 +119,43 @@ export const ScannerPage = ({
             </View>
             <Ionicons name="chevron-forward" size={24} color="#ccc" />
           </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={styles.optionCard}
+            activeOpacity={0.7}
+            onPress={() => onSelectMode('manual')}
+          >
+            <View style={[styles.optionIconContainer, styles.manualIcon]}>
+              <Ionicons name="create-outline" size={40} color="#9C27B0" />
+            </View>
+            <View style={styles.optionContent}>
+              <Text style={styles.optionTitle}>Manual Input</Text>
+              <Text style={styles.optionDescription}>
+                Enter nutrition information manually for non-packaged products like fruits, vegetables, and homemade meals
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={24} color="#ccc" />
+          </TouchableOpacity>
         </View>
       </ScrollView>
+    );
+  }
+
+  // Show manual input form when manual mode is selected and no data submitted yet
+  if (scanMode === 'manual' && !manualNutritionData) {
+    return (
+      <ManualInputForm
+        onSubmit={(nutritionData) => {
+          // Store the nutrition data temporarily
+          setManualNutritionData(nutritionData);
+          // Modal will be shown by useEffect
+        }}
+        onCancel={() => {
+          onClear();
+          onSelectMode(null);
+          setManualNutritionData(null);
+        }}
+      />
     );
   }
 
@@ -80,7 +168,7 @@ export const ScannerPage = ({
       )}
 
       {/* No nutrition found */}
-      {scanMode === 'nutrition' && !nutritionData && scannedText && (
+      {scanMode === 'nutrition' && !isLoading && !nutritionData && scannedText && (
         <NoNutritionFound
           onRescan={onRescan}
           onClear={onClear}
@@ -91,7 +179,7 @@ export const ScannerPage = ({
       {scanMode === 'ingredients' && ingredientData && (
         <View style={styles.ingredientsResultContainer}>
           <View style={styles.ingredientsHeader}>
-            <Text style={styles.ingredientsTitle}>Analysis Results</Text>
+            <Text style={styles.ingredientsTitle}>   Analysis Results</Text>
             <TouchableOpacity onPress={onClear} style={styles.clearButton}>
               <Ionicons name="close-outline" size={22} color="#666" />
             </TouchableOpacity>
@@ -110,7 +198,7 @@ export const ScannerPage = ({
       )}
 
       {/* No ingredients found */}
-      {scanMode === 'ingredients' && !ingredientData && scannedText && (
+      {scanMode === 'ingredients' && !isLoading && !ingredientData && scannedText && (
         <View style={styles.noIngredientsFound}>
           <Ionicons name="search-outline" size={64} color="#ddd" />
           <Text style={styles.noIngredientsTitle}>No Ingredients Found</Text>
@@ -124,27 +212,23 @@ export const ScannerPage = ({
         </View>
       )}
 
+      {/* NutriScore Modal - Shows first if NutriScore is available */}
+      <NutriScoreModal
+        visible={showNutriScoreModal}
+        nutriScore={(manualNutritionData || nutritionData)?.nutriScore || (manualNutritionData || nutritionData)?.nutriscore}
+        onClose={handleNutriScoreClose}
+      />
+
+      {/* Consume Confirmation Modal - Shows after NutriScore or if no NutriScore */}
+      <ConsumeConfirmationModal
+        visible={showConsumeModal}
+        nutritionData={manualNutritionData || nutritionData}
+        onConfirm={handleConfirmConsume}
+        onCancel={handleCancelConsume}
+      />
+
       {/* Show loading while scanning */}
       {isLoading && <LoadingOverlay visible={isLoading} />}
-      
-      {/* Show scanning message when mode is selected but no results yet */}
-      {scanMode && !nutritionData && !ingredientData && !scannedText && !isLoading && (
-        <View style={styles.scanningMessage}>
-          <Ionicons name="camera-outline" size={64} color={COLORS.primary} />
-          <Text style={styles.scanningText}>
-            {scanMode === 'nutrition' ? 'Scanning Nutrition Data...' : 'Scanning Ingredients...'}
-          </Text>
-          <TouchableOpacity 
-            style={styles.cancelButton} 
-            onPress={() => {
-              onClear();
-              onSelectMode(null);
-            }}
-          >
-            <Text style={styles.cancelButtonText}>Cancel</Text>
-          </TouchableOpacity>
-        </View>
-      )}
     </View>
   );
 };
@@ -198,6 +282,9 @@ const styles = StyleSheet.create({
   },
   ingredientIcon: {
     backgroundColor: '#FFE8E8',
+  },
+  manualIcon: {
+    backgroundColor: '#F3E5F5',
   },
   optionContent: {
     flex: 1,
@@ -282,31 +369,6 @@ const styles = StyleSheet.create({
     fontSize: SIZES.body2,
     fontWeight: '600',
     marginLeft: 8,
-  },
-  scanningMessage: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 40,
-  },
-  scanningText: {
-    fontSize: SIZES.h3,
-    color: COLORS.text,
-    marginTop: 20,
-    marginBottom: 30,
-    textAlign: 'center',
-  },
-  cancelButton: {
-    paddingHorizontal: 30,
-    paddingVertical: 12,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: COLORS.primary,
-  },
-  cancelButtonText: {
-    color: COLORS.primary,
-    fontSize: SIZES.body2,
-    fontWeight: '600',
   },
   // New ingredient display styles
   ingredientsList: {
