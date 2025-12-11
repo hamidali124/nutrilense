@@ -1,8 +1,3 @@
-/**
- * Advanced AI Nutrition Extractor
- * Uses machine learning patterns and adaptive algorithms to extract nutrition data
- * from ANY format, layout, or style of nutrition label
- */
 
 export class AINutritionExtractor {
   /**
