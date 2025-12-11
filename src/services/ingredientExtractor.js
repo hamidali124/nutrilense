@@ -12,9 +12,10 @@ export class IngredientExtractor {
   /**
    * Main extraction pipeline
    * @param {string} ocrText - Raw text from Azure Computer Vision
+   * @param {Array} userAllergens - Array of allergen keys selected by user (e.g., ['milk', 'eggs'])
    * @returns {Object} Structured ingredient data or null
    */
-  static async extractIngredients(ocrText) {
+  static async extractIngredients(ocrText, userAllergens = []) {
     try {
       console.log('Starting ingredient extraction pipeline...');
       console.log(`Input text length: ${ocrText?.length || 0} characters`);
@@ -51,9 +52,9 @@ export class IngredientExtractor {
         console.log(`  ${index + 1}. "${ing.name}" (${ing.source}, confidence: ${ing.confidence})`);
       });
       
-      // Step 3: Analyze ingredients for allergens and haram status
+      // Step 3: Analyze ingredients for allergens and haram status (only user-selected allergens)
       console.log('Analyzing ingredients for allergens and haram status...');
-      const analyzedIngredients = IngredientAnalysisService.batchAnalyze(ingredients);
+      const analyzedIngredients = IngredientAnalysisService.batchAnalyze(ingredients, userAllergens);
       
       // Get analysis summary
       const analysisSummary = IngredientAnalysisService.getSummary(analyzedIngredients);
