@@ -138,12 +138,6 @@ export const IngredientsDisplay = ({ ingredientData }) => {
           </View>
         )}
 
-        {/* Confidence Score */}
-        <View style={styles.confidenceContainer}>
-          <Text style={styles.confidenceText}>
-            {Math.round(ingredient.confidence * 100)}% confident
-          </Text>
-        </View>
       </View>
     );
   };
@@ -166,12 +160,6 @@ export const IngredientsDisplay = ({ ingredientData }) => {
         {ingredients.map((ingredient, index) => renderIngredient(ingredient, index))}
       </View>
 
-      {/* Footer Info */}
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>
-          💡 Doubtful ingredients require verification of source and processing method
-        </Text>
-      </View>
     </ScrollView>
   );
 };
@@ -366,22 +354,5 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#666',
     fontStyle: 'italic',
-  },
-  confidenceContainer: {
-    marginTop: 4,
-  },
-  confidenceText: {
-    fontSize: 11,
-    color: '#999',
-  },
-  footer: {
-    padding: 16,
-    marginBottom: 20,
-  },
-  footerText: {
-    fontSize: 12,
-    color: '#666',
-    textAlign: 'center',
-    lineHeight: 18,
   },
 });
