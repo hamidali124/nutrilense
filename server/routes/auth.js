@@ -6,7 +6,7 @@ const router = express.Router();
 // Generate JWT token
 const generateToken = (userId) => {
   return jwt.sign({ userId }, process.env.JWT_SECRET, {
-    expiresIn: '7d'
+    expiresIn: '30d'
   });
 };
 
@@ -124,7 +124,8 @@ router.post('/register', async (req, res) => {
         weight: user.weight,
         bmi: user.bmi,
         gender: user.gender,
-        allergens: user.allergens
+        allergens: user.allergens,
+        hba1c: user.hba1c
       }
     });
   } catch (error) {
@@ -204,7 +205,8 @@ router.post('/login', async (req, res) => {
         weight: user.weight,
         bmi: user.bmi,
         gender: user.gender,
-        allergens: user.allergens
+        allergens: user.allergens,
+        hba1c: user.hba1c
       }
     });
   } catch (error) {
