@@ -12,7 +12,7 @@ export const LoadingOverlay = ({ visible }) => {
     <View style={styles.loadingOverlay}>
       <View style={styles.loadingContent}>
         <ActivityIndicator size="small" color={COLORS.primary} />
-        <Text style={styles.loadingText}>Calculating NutriScore...</Text>
+        <Text style={styles.loadingText}>Extracting text from image... </Text>
       </View>
     </View>
   );
