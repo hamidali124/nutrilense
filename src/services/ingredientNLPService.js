@@ -71,13 +71,6 @@ export class IngredientNLPService {
 
   /**
    * Azure Text Analytics - Named Entity Recognition (NER)
-   * This is the MAIN NLP component using Microsoft's pre-trained ML models
-   * 
-   * What makes this "Real NLP":
-   * - Uses deep learning models trained on massive datasets
-   * - Understands context and relationships between words
-   * - Identifies entities even with variations and errors
-   * - Provides confidence scores based on linguistic patterns
    */
   static async extractEntitiesWithAzure(text) {
     // Check if credentials are available
@@ -123,7 +116,7 @@ export class IngredientNLPService {
       
     } catch (error) {
       if (error.response) {
-        console.error('❌ Azure API Error:', error.response.status, error.response.data);
+        console.error(' Azure API Error:', error.response.status, error.response.data);
       } else {
         console.error('Azure Connection Error:', error.message);
       }
