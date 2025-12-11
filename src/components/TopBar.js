@@ -6,7 +6,7 @@ import { COLORS, SIZES } from '../constants';
 /**
  * Reusable TopBar component
  */
-export const TopBar = ({ title = "NutriLens", ocrService, onToggleOCR }) => {
+export const TopBar = ({ title = "NutriLens", ocrService, onToggleOCR, onProfilePress }) => {
   const getServiceDisplay = (service) => {
     switch (service) {
       case 'azure': return '🔷 Azure Vision';
@@ -25,17 +25,29 @@ export const TopBar = ({ title = "NutriLens", ocrService, onToggleOCR }) => {
         </View>
       </View>
       
-      {onToggleOCR && (
-        <TouchableOpacity 
-          style={styles.toggleButton} 
-          onPress={onToggleOCR}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.toggleText}>
-            {getServiceDisplay(ocrService)}
-          </Text>
-        </TouchableOpacity>
-      )}
+      <View style={styles.rightContainer}>
+        {onToggleOCR && (
+          <TouchableOpacity 
+            style={styles.toggleButton} 
+            onPress={onToggleOCR}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.toggleText}>
+              {getServiceDisplay(ocrService)}
+            </Text>
+          </TouchableOpacity>
+        )}
+        
+        {onProfilePress && (
+          <TouchableOpacity 
+            style={styles.profileButton} 
+            onPress={onProfilePress}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="person-circle-outline" size={24} color={COLORS.primary} />
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 };
@@ -46,7 +58,9 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 15,
     paddingHorizontal: SIZES.padding,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -58,6 +72,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+    flex: 1,
   },
   appTitle: {
     fontSize: SIZES.fontSize.xxlarge,
@@ -76,8 +91,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     opacity: 0.9,
   },
+  rightContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
   toggleButton: {
-    marginTop: 8,
     paddingHorizontal: 12,
     paddingVertical: 6,
     backgroundColor: '#f0f0f0',
@@ -89,5 +108,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
     color: '#333',
+  },
+  profileButton: {
+    padding: 4,
   },
 });
