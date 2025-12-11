@@ -1,7 +1,3 @@
-/**
- * Nutrition Data Models and Types
- * Defines the structure for nutrition information
- */
 
 /**
  * Nutrition Value with unit and daily value percentage
@@ -169,6 +165,7 @@ export class NutritionFacts {
       macronutrients: this.macronutrients,
       vitaminsAndMinerals: this.vitaminsAndMinerals,
       additionalInfo: this.additionalInfo,
+      nutriScore: this.nutriScore || null, // Include NutriScore in JSON
       scanDate: this.scanDate.toISOString(),
       ocrSource: this.ocrSource,
       confidence: this.confidence,
@@ -188,6 +185,7 @@ export class NutritionFacts {
     Object.assign(facts.vitaminsAndMinerals, json.vitaminsAndMinerals || {});
     Object.assign(facts.additionalInfo, json.additionalInfo || {});
     
+    facts.nutriScore = json.nutriScore || null; // Restore NutriScore from JSON
     facts.scanDate = new Date(json.scanDate);
     facts.ocrSource = json.ocrSource;
     facts.confidence = json.confidence;
