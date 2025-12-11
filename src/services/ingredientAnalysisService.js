@@ -12,9 +12,9 @@ export class IngredientAnalysisService {
     if (!allergenDataCache) {
       try {
         allergenDataCache = require('../data/allergens.json');
-        console.log('✅ Allergen data loaded successfully');
+        console.log('Allergen data loaded successfully');
       } catch (error) {
-        console.error('❌ Failed to load allergen data:', error);
+        console.error(' Failed to load allergen data:', error);
         throw error;
       }
     }
@@ -25,9 +25,9 @@ export class IngredientAnalysisService {
     if (!haramDataCache) {
       try {
         haramDataCache = require('../data/haramIngredients.json');
-        console.log('✅ Haram data loaded successfully');
+        console.log(' Haram data loaded successfully');
       } catch (error) {
-        console.error('❌ Failed to load haram data:', error);
+        console.error(' Failed to load haram data:', error);
         throw error;
       }
     }
@@ -37,12 +37,58 @@ export class IngredientAnalysisService {
   /**
    * Analyze a single ingredient for allergens and haram status
    * @param {string} ingredientName - The ingredient name to analyze
+   * @param {Array} userAllergens - Array of allergen keys selected by user (e.g., ['milk', 'eggs'])
    * @returns {Object} Analysis results with allergen and haram information
    */
-  static analyzeIngredient(ingredientName) {
+  static analyzeIngredient(ingredientName, userAllergens = []) {
+    // Handle null, undefined, or empty ingredient names
+    if (!ingredientName || typeof ingredientName !== 'string') {
+      // Return safe default analysis for invalid input
+      return {
+        allergenInfo: {
+          isAllergen: false,
+          matches: [],
+          count: 0,
+        },
+        haramInfo: {
+          status: 'halal',
+          category: 'unknown',
+          source: 'invalid_input',
+          matchedTerm: null,
+          matchType: null,
+          displayName: null,
+        },
+        hasAllergens: false,
+        isHaram: false,
+        isDoubtful: false,
+      };
+    }
+    
     const normalizedName = ingredientName.toLowerCase().trim();
     
-    const allergenInfo = this.checkAllergens(normalizedName);
+    // Handle empty or whitespace-only strings
+    if (normalizedName.length === 0) {
+      return {
+        allergenInfo: {
+          isAllergen: false,
+          matches: [],
+          count: 0,
+        },
+        haramInfo: {
+          status: 'halal',
+          category: 'unknown',
+          source: 'empty_input',
+          matchedTerm: null,
+          matchType: null,
+          displayName: null,
+        },
+        hasAllergens: false,
+        isHaram: false,
+        isDoubtful: false,
+      };
+    }
+    
+    const allergenInfo = this.checkAllergens(normalizedName, userAllergens);
     const haramInfo = this.checkHaramStatus(normalizedName);
     
     return {
@@ -55,56 +101,75 @@ export class IngredientAnalysisService {
   }
 
   /**
-   * Check if ingredient matches any allergen
+   * Check if ingredient matches any allergen from user's selected allergens
    * @param {string} ingredientName - Normalized ingredient name
-   * @returns {Object} Allergen information
+   * @param {Array} userAllergens - Array of allergen keys selected by user (e.g., ['milk', 'eggs'])
+   * @returns {Object} Allergen information (only for user-selected allergens)
    */
-  static checkAllergens(ingredientName) {
+  static checkAllergens(ingredientName, userAllergens = []) {
+    // If no user allergens specified, return no matches
+    if (!userAllergens || userAllergens.length === 0) {
+      return {
+        isAllergen: false,
+        matches: [],
+        count: 0,
+      };
+    }
+
     const allergenData = this.getAllergenData();
     const matches = [];
     
-    // Check major allergens
+    // Convert user allergens to a Set for faster lookup
+    const userAllergenSet = new Set(userAllergens.map(a => a.toLowerCase()));
+    
+    // Check major allergens (only if in user's list)
     for (const [allergenKey, allergenInfo] of Object.entries(allergenData.majorAllergens)) {
-      const match = this.findMatch(ingredientName, allergenInfo.names, allergenInfo.eNumbers);
-      if (match) {
-        matches.push({
-          type: allergenKey,
-          severity: allergenInfo.severity,
-          category: allergenInfo.category,
-          matchedTerm: match.term,
-          matchType: match.type,
-          displayName: this.formatAllergenName(allergenKey),
-        });
+      if (userAllergenSet.has(allergenKey.toLowerCase())) {
+        const match = this.findMatch(ingredientName, allergenInfo.names, allergenInfo.eNumbers);
+        if (match) {
+          matches.push({
+            type: allergenKey,
+            severity: allergenInfo.severity,
+            category: allergenInfo.category,
+            matchedTerm: match.term,
+            matchType: match.type,
+            displayName: this.formatAllergenName(allergenKey),
+          });
+        }
       }
     }
 
-    // Check common allergens
+    // Check common allergens (only if in user's list)
     for (const [allergenKey, allergenInfo] of Object.entries(allergenData.commonAllergens)) {
-      const match = this.findMatch(ingredientName, allergenInfo.names);
-      if (match) {
-        matches.push({
-          type: allergenKey,
-          severity: allergenInfo.severity,
-          category: allergenInfo.category,
-          matchedTerm: match.term,
-          matchType: match.type,
-          displayName: this.formatAllergenName(allergenKey),
-        });
+      if (userAllergenSet.has(allergenKey.toLowerCase())) {
+        const match = this.findMatch(ingredientName, allergenInfo.names);
+        if (match) {
+          matches.push({
+            type: allergenKey,
+            severity: allergenInfo.severity,
+            category: allergenInfo.category,
+            matchedTerm: match.term,
+            matchType: match.type,
+            displayName: this.formatAllergenName(allergenKey),
+          });
+        }
       }
     }
 
-    // Check rare allergens
+    // Check rare allergens (only if in user's list)
     for (const [allergenKey, allergenInfo] of Object.entries(allergenData.rareAllergens || {})) {
-      const match = this.findMatch(ingredientName, allergenInfo.names);
-      if (match) {
-        matches.push({
-          type: allergenKey,
-          severity: allergenInfo.severity,
-          category: allergenInfo.category,
-          matchedTerm: match.term,
-          matchType: match.type,
-          displayName: this.formatAllergenName(allergenKey),
-        });
+      if (userAllergenSet.has(allergenKey.toLowerCase())) {
+        const match = this.findMatch(ingredientName, allergenInfo.names);
+        if (match) {
+          matches.push({
+            type: allergenKey,
+            severity: allergenInfo.severity,
+            category: allergenInfo.category,
+            matchedTerm: match.term,
+            matchType: match.type,
+            displayName: this.formatAllergenName(allergenKey),
+          });
+        }
       }
     }
 
@@ -255,11 +320,12 @@ export class IngredientAnalysisService {
   /**
    * Batch analyze multiple ingredients
    * @param {Array} ingredients - Array of ingredient objects with 'name' property
+   * @param {Array} userAllergens - Array of allergen keys selected by user 
    * @returns {Array} Ingredients with analysis results
    */
-  static batchAnalyze(ingredients) {
+  static batchAnalyze(ingredients, userAllergens = []) {
     return ingredients.map(ingredient => {
-      const analysis = this.analyzeIngredient(ingredient.name);
+      const analysis = this.analyzeIngredient(ingredient.name, userAllergens);
       return {
         ...ingredient,
         ...analysis,
