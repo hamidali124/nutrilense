@@ -1,4 +1,4 @@
-// Move config.js content to constants folder and enhance it
+
 export const API_CONFIG = {
   azure: {
     maxImageWidth: 1024,
@@ -15,7 +15,7 @@ export const NUTRITION_DATA = {
     'lupin', 'molluscs'
   ],
   
-  // Common haram ingredients (basic list)
+  // Common haram ingredients 
   haramIngredients: [
     'pork', 'ham', 'bacon', 'lard', 'gelatin', 'alcohol', 'wine',
     'beer', 'rum', 'whiskey', 'vodka', 'ethanol', 'ethyl alcohol'
