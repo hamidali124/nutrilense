@@ -17,10 +17,10 @@ app.use(express.urlencoded({ extended: true }));
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI)
 .then(() => {
-  console.log('✅ Connected to MongoDB Atlas');
+  console.log('Connected to MongoDB Atlas');
 })
 .catch((error) => {
-  console.error('❌ MongoDB connection error:', error);
+  console.error(' MongoDB connection error:', error);
   process.exit(1);
 });
 
@@ -49,8 +49,8 @@ app.use((err, req, res, next) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📡 API available at http://localhost:${PORT}/api`);
+  console.log(`Server running on port ${PORT}`);
+  console.log(` API available at http://localhost:${PORT}/api`);
 });
 
 module.exports = app;
