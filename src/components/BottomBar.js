@@ -1,28 +1,34 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SHADOW_STYLES } from '../constants';
 
 /**
  * Bottom Navigation Bar Component
+ * 5 tabs: Home, Dashboard, Scanner (center), Coach, History
  */
 export const BottomBar = ({ onScanPress, isLoading, activeTab, onTabChange }) => {
+  const renderTab = (tabKey, iconActive, iconInactive, label) => (
+    <TouchableOpacity 
+      style={styles.navItem} 
+      activeOpacity={0.7}
+      onPress={() => onTabChange(tabKey)}
+    >
+      <Ionicons 
+        name={activeTab === tabKey ? iconActive : iconInactive} 
+        size={24} 
+        color={activeTab === tabKey ? COLORS.primary : '#666'} 
+      />
+      <Text style={[styles.navLabel, activeTab === tabKey && styles.navLabelActive]}>{label}</Text>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.bottomBar}>
-      {/* Home Tab */}
-      <TouchableOpacity 
-        style={styles.navItem} 
-        activeOpacity={0.7}
-        onPress={() => onTabChange('home')}
-      >
-        <Ionicons 
-          name={activeTab === 'home' ? "home" : "home-outline"} 
-          size={28} 
-          color={activeTab === 'home' ? COLORS.primary : "#666"} 
-        />
-      </TouchableOpacity>
+      {renderTab('home', 'home', 'home-outline', 'Home')}
+      {renderTab('dashboard', 'stats-chart', 'stats-chart-outline', 'Dashboard')}
       
-      {/* Scanner Tab - middle button */}
+      {/* Scanner Tab - center prominent button */}
       <TouchableOpacity 
         style={[styles.navItem, styles.activeNavItem]} 
         onPress={onScanPress}
@@ -34,18 +40,8 @@ export const BottomBar = ({ onScanPress, isLoading, activeTab, onTabChange }) =>
         </View>
       </TouchableOpacity>
       
-      {/* History Tab */}
-      <TouchableOpacity 
-        style={styles.navItem} 
-        activeOpacity={0.7}
-        onPress={() => onTabChange('history')}
-      >
-        <Ionicons 
-          name={activeTab === 'history' ? "time" : "time-outline"} 
-          size={28} 
-          color={activeTab === 'history' ? COLORS.primary : "#666"} 
-        />
-      </TouchableOpacity>
+      {renderTab('coach', 'chatbubble-ellipses', 'chatbubble-ellipses-outline', 'Coach')}
+      {renderTab('history', 'time', 'time-outline', 'History')}
     </View>
   );
 };
@@ -69,14 +65,23 @@ const styles = StyleSheet.create({
   navItem: {
     alignItems: 'center',
     justifyContent: 'center',
-    minWidth: 60,
+    minWidth: 50,
     height: 50,
   },
   activeNavItem: {
     alignItems: 'center',
     justifyContent: 'center',
-    minWidth: 60,
+    minWidth: 50,
     height: 50,
+  },
+  navLabel: {
+    fontSize: 10,
+    color: '#666',
+    marginTop: 2,
+  },
+  navLabelActive: {
+    color: COLORS.primary,
+    fontWeight: '600',
   },
   scannerButton: {
     width: 55,

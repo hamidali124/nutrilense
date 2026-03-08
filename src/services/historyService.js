@@ -145,4 +145,185 @@ export class HistoryService {
       return 0;
     }
   }
+
+  /**
+   * Get recent scans (convenience method)
+   */
+  static async getRecentScans(limit = 5) {
+    try {
+      const history = await this.getHistory();
+      return history.slice(0, limit);
+    } catch (error) {
+      console.error('Error getting recent scans:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get weekly calorie trend - returns array of { day, calories } for last 7 days
+   */
+  static async getWeeklyCalorieTrend() {
+    try {
+      const history = await this.getHistory();
+      const today = new Date();
+      const trend = [];
+
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i);
+        const dateStr = date.toLocaleDateString();
+        const dayLabel = date.toLocaleDateString('en-US', { weekday: 'short' });
+
+        const dayScans = history.filter(scan => scan.date === dateStr && scan.hasNutritionData);
+        let totalCalories = 0;
+        dayScans.forEach(scan => {
+          const cal = scan.nutritionData?.calories;
+          if (typeof cal === 'object') {
+            totalCalories += parseFloat(cal.total) || 0;
+          } else {
+            totalCalories += parseFloat(cal) || 0;
+          }
+        });
+
+        trend.push({ day: dayLabel, date: dateStr, calories: Math.round(totalCalories) });
+      }
+
+      return trend;
+    } catch (error) {
+      console.error('Error getting weekly calorie trend:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get history grouped by date for SectionList
+   */
+  static async getGroupedHistory() {
+    try {
+      const history = await this.getHistory();
+      const groups = {};
+
+      history.forEach(item => {
+        const date = item.date || 'Unknown Date';
+        if (!groups[date]) {
+          groups[date] = [];
+        }
+        groups[date].push(item);
+      });
+
+      return Object.keys(groups).map(date => ({
+        title: date,
+        data: groups[date]
+      }));
+    } catch (error) {
+      console.error('Error getting grouped history:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get average NutriScore over a period
+   */
+  static async getAverageNutriScore(days = 7) {
+    try {
+      const history = await this.getHistory();
+      const cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - days);
+
+      const scoresInRange = history
+        .filter(scan => {
+          const scanDate = new Date(scan.timestamp);
+          return scanDate >= cutoff && scan.nutriScore?.grade;
+        })
+        .map(scan => {
+          const gradeMap = { 'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5 };
+          return gradeMap[scan.nutriScore.grade] || 3;
+        });
+
+      if (scoresInRange.length === 0) return null;
+
+      const avg = scoresInRange.reduce((a, b) => a + b, 0) / scoresInRange.length;
+      const gradeArr = ['A', 'B', 'C', 'D', 'E'];
+      const avgGrade = gradeArr[Math.min(Math.round(avg) - 1, 4)];
+
+      return { averageScore: parseFloat(avg.toFixed(1)), averageGrade: avgGrade, count: scoresInRange.length };
+    } catch (error) {
+      console.error('Error getting average NutriScore:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get risk trend data from scans
+   */
+  static async getRiskTrend(days = 7) {
+    try {
+      const history = await this.getHistory();
+      const cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - days);
+
+      return history
+        .filter(scan => {
+          const scanDate = new Date(scan.timestamp);
+          return scanDate >= cutoff && scan.nutriScore?.breakdown;
+        })
+        .map(scan => ({
+          date: scan.date,
+          timestamp: scan.timestamp,
+          diabetesRisk: scan.nutriScore?.breakdown?.diabetes_risk ?? null,
+          hypertensionRisk: scan.nutriScore?.breakdown?.hypertension_risk ?? null
+        }))
+        .filter(item => item.diabetesRisk !== null || item.hypertensionRisk !== null)
+        .reverse();
+    } catch (error) {
+      console.error('Error getting risk trend:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get most frequently scanned foods
+   */
+  static async getMostFrequentFoods(limit = 5) {
+    try {
+      const history = await this.getHistory();
+      const foodCounts = {};
+
+      history.forEach(scan => {
+        if (scan.hasNutritionData) {
+          const name = scan.type || 'Nutrition Scan';
+          foodCounts[name] = (foodCounts[name] || 0) + 1;
+        }
+      });
+
+      return Object.entries(foodCounts)
+        .map(([name, count]) => ({ name, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, limit);
+    } catch (error) {
+      console.error('Error getting most frequent foods:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Export history as CSV string
+   */
+  static async exportAsCSV() {
+    try {
+      const history = await this.getHistory();
+      const header = 'Date,Time,Type,Calories,NutriScore Grade,NutriScore\n';
+      const rows = history.map(scan => {
+        const cal = scan.nutritionData?.calories;
+        const calories = typeof cal === 'object' ? (cal.total || '') : (cal || '');
+        const grade = scan.nutriScore?.grade || '';
+        const score = scan.nutriScore?.combinedScore_rounded || scan.nutriScore?.euScore || '';
+        return `${scan.date},${scan.time},${scan.type},${calories},${grade},${score}`;
+      }).join('\n');
+      return header + rows;
+    } catch (error) {
+      console.error('Error exporting CSV:', error);
+      return '';
+    }
+  }
 }

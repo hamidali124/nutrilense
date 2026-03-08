@@ -253,7 +253,10 @@ router.get('/profile', async (req, res) => {
         bmi: user.bmi,
         gender: user.gender,
         allergens: user.allergens,
-        hba1c: user.hba1c
+        hba1c: user.hba1c,
+        dailyCalorieGoal: user.dailyCalorieGoal,
+        dailySugarGoal: user.dailySugarGoal,
+        dailySodiumGoal: user.dailySodiumGoal
       }
     });
   } catch (error) {
@@ -288,7 +291,18 @@ router.put('/profile', async (req, res) => {
     }
 
     // Update allowed fields
-    const { name, age, height, weight, gender, allergens, hba1c } = req.body;
+    const {
+      name,
+      age,
+      height,
+      weight,
+      gender,
+      allergens,
+      hba1c,
+      dailyCalorieGoal,
+      dailySugarGoal,
+      dailySodiumGoal
+    } = req.body;
 
     if (name) user.name = name.trim();
     if (age) user.age = parseInt(age);
@@ -300,6 +314,9 @@ router.put('/profile', async (req, res) => {
       // Allow null/empty string to clear the value
       user.hba1c = hba1c === '' || hba1c === null ? undefined : parseFloat(hba1c);
     }
+    if (dailyCalorieGoal !== undefined) user.dailyCalorieGoal = parseFloat(dailyCalorieGoal);
+    if (dailySugarGoal !== undefined) user.dailySugarGoal = parseFloat(dailySugarGoal);
+    if (dailySodiumGoal !== undefined) user.dailySodiumGoal = parseFloat(dailySodiumGoal);
 
     // BMI will be recalculated automatically in pre-save hook
     await user.save();
@@ -317,7 +334,10 @@ router.put('/profile', async (req, res) => {
         bmi: user.bmi,
         gender: user.gender,
         allergens: user.allergens,
-        hba1c: user.hba1c
+        hba1c: user.hba1c,
+        dailyCalorieGoal: user.dailyCalorieGoal,
+        dailySugarGoal: user.dailySugarGoal,
+        dailySodiumGoal: user.dailySodiumGoal
       }
     });
   } catch (error) {

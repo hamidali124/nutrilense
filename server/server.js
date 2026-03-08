@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
 const nutritionRoutes = require('./routes/nutrition');
+const coachRoutes = require('./routes/coach');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -27,6 +28,7 @@ mongoose.connect(process.env.MONGODB_URI)
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/nutrition', nutritionRoutes);
+app.use('/api/coach', coachRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

@@ -1,0 +1,190 @@
+[
+  {
+    "keywords": ["portion", "rice", "serving size", "cup of rice"],
+    "content": "A practical rice portion is about 1/2 cup cooked (around 80 to 100 g), which is roughly 100 to 130 kcal depending on type. For higher activity needs, 1 cup cooked can fit better."
+  },
+  {
+    "keywords": ["portion", "bread", "slice", "toast"],
+    "content": "One serving of bread is usually 1 slice (about 25 to 35 g). Choose whole grain bread when possible for more fiber and slower blood sugar rise."
+  },
+  {
+    "keywords": ["portion", "pasta", "noodles", "serving"],
+    "content": "A common pasta serving is about 1 cup cooked (roughly 140 to 160 g). Dry pasta portions are often around 56 g (2 oz) before cooking."
+  },
+  {
+    "keywords": ["portion", "meat", "chicken", "beef", "protein serving"],
+    "content": "A lean meat serving is about 85 to 100 g cooked, close to the size of a deck of cards. Prefer grilling, baking, or steaming over deep frying."
+  },
+  {
+    "keywords": ["portion", "fish", "salmon", "tuna", "seafood"],
+    "content": "A fish portion is typically 85 to 120 g cooked. Fatty fish like salmon provide omega-3 fats and are often recommended about 2 times per week."
+  },
+  {
+    "keywords": ["portion", "fruit", "apple", "banana", "berries"],
+    "content": "One fruit serving is usually 1 medium fruit, 1/2 cup chopped fruit, or 1 cup berries. Whole fruit is generally better than juice for fiber and fullness."
+  },
+  {
+    "keywords": ["portion", "vegetable", "veggies", "salad", "greens"],
+    "content": "A vegetable serving is often 1 cup raw leafy vegetables or 1/2 cup cooked vegetables. Aim for multiple colors across the day for broader micronutrients."
+  },
+  {
+    "keywords": ["portion", "dairy", "milk", "yogurt", "cheese"],
+    "content": "Typical dairy portions are 1 cup milk, 3/4 to 1 cup yogurt, or about 30 g cheese. Pick lower sugar options and watch sodium in processed cheese products."
+  },
+  {
+    "keywords": ["sugar limit", "added sugar", "who sugar", "daily sugar"],
+    "content": "WHO advises limiting free sugars to less than 10% of daily energy, with benefits at below 5% for extra health gains. For a 2000 kcal diet, 5% is about 25 g added sugar."
+  },
+  {
+    "keywords": ["sugar effects", "high sugar", "blood sugar", "insulin"],
+    "content": "Frequent high sugar intake can increase calorie load, trigger blood glucose spikes, and over time raise risk for weight gain, insulin resistance, and dental caries."
+  },
+  {
+    "keywords": ["sodium", "salt limit", "who sodium", "aha sodium"],
+    "content": "General guidance is to stay below 2300 mg sodium per day, and many people with hypertension benefit from a lower target near 1500 mg per day when feasible."
+  },
+  {
+    "keywords": ["salt", "hypertension", "blood pressure", "sodium effects"],
+    "content": "Excess sodium intake can raise blood pressure, especially in salt-sensitive individuals. Reducing sodium often improves blood pressure control within weeks."
+  },
+  {
+    "keywords": ["saturated fat", "sat fat", "butter", "fat limit"],
+    "content": "Many heart-health guidelines suggest keeping saturated fat below 10% of total calories, and closer to 5 to 6% for people with high cardiovascular risk."
+  },
+  {
+    "keywords": ["trans fat", "partially hydrogenated", "hydrogenated oil"],
+    "content": "Artificial trans fats should be avoided as much as possible because they increase cardiovascular risk. Check labels for partially hydrogenated oils."
+  },
+  {
+    "keywords": ["unsaturated fat", "healthy fat", "omega 3", "olive oil"],
+    "content": "Unsaturated fats from foods like olive oil, nuts, seeds, and fish are generally preferred over saturated and trans fats for heart and metabolic health."
+  },
+  {
+    "keywords": ["protein", "protein recommendation", "daily protein", "muscle"],
+    "content": "A common adult baseline is about 0.8 g protein per kg body weight daily, with higher needs possible for older adults, athletes, or those in weight-loss phases."
+  },
+  {
+    "keywords": ["fiber", "dietary fiber", "gut health", "constipation"],
+    "content": "Adults are often encouraged to target around 25 to 38 g fiber daily. Fiber supports gut health, satiety, cholesterol control, and steadier glucose response."
+  },
+  {
+    "keywords": ["e120", "carmine", "cochineal", "food coloring"],
+    "content": "E120 (carmine/cochineal) is a red dye derived from insects. Some consumers avoid it for religious, ethical, or allergy reasons."
+  },
+  {
+    "keywords": ["e621", "msg", "monosodium glutamate", "flavor enhancer"],
+    "content": "E621 (MSG) is a flavor enhancer. It is considered safe by major regulators at normal intake levels, but sodium contribution still matters for sodium-restricted diets."
+  },
+  {
+    "keywords": ["e150d", "caramel color", "cola additive"],
+    "content": "E150d is a caramel coloring used in dark beverages and sauces. It mainly affects color, not nutritional value, but often appears in ultra-processed foods."
+  },
+  {
+    "keywords": ["e211", "sodium benzoate", "preservative"],
+    "content": "E211 (sodium benzoate) is a preservative. In acidic foods it helps prevent spoilage. Some people prefer limiting highly processed foods that use multiple additives."
+  },
+  {
+    "keywords": ["additives", "e number", "food additives", "preservatives"],
+    "content": "E numbers identify approved additives. Not all additives are harmful, but frequent intake of heavily processed foods can displace more nutrient-dense choices."
+  },
+  {
+    "keywords": ["halal", "gelatin", "porcine", "haram"],
+    "content": "Gelatin source matters for halal diets. Porcine gelatin is typically not halal, while halal-certified bovine or fish gelatin may be acceptable."
+  },
+  {
+    "keywords": ["halal", "carmine", "alcohol", "ethanol", "haram ingredients"],
+    "content": "Carmine (E120) and alcohol-containing flavor extracts may be avoided in some halal practices. Certification labels and ingredient source details are important."
+  },
+  {
+    "keywords": ["allergen", "gluten", "wheat", "celiac"],
+    "content": "Gluten is found in wheat, barley, and rye. People with celiac disease require strict gluten avoidance and need attention to cross-contamination."
+  },
+  {
+    "keywords": ["allergen", "nuts", "peanut", "tree nut"],
+    "content": "Nut allergies can be severe. Check for peanuts and tree nuts, plus precautionary labels like 'may contain'. Cross-contact can happen during manufacturing."
+  },
+  {
+    "keywords": ["allergen", "dairy", "milk allergy", "lactose"],
+    "content": "Milk allergy differs from lactose intolerance. Milk allergy involves immune response to proteins like casein/whey, while lactose intolerance is carbohydrate digestion related."
+  },
+  {
+    "keywords": ["allergen", "soy", "soybean", "lecithin"],
+    "content": "Soy is a common allergen. Ingredient labels may list soybean oil, soy protein, tofu, or soy flour. Some refined soy oils may be tolerated by some individuals."
+  },
+  {
+    "keywords": ["allergen", "egg", "albumin", "ovomucoid"],
+    "content": "Egg allergens can appear in baked goods, sauces, dressings, and some processed foods. Label reading is critical for confirmed egg allergy."
+  },
+  {
+    "keywords": ["allergen", "shellfish", "shrimp", "crab", "prawn"],
+    "content": "Shellfish allergy often includes crustaceans such as shrimp, crab, and lobster. Reactions can be serious; strict avoidance and emergency planning are important."
+  },
+  {
+    "keywords": ["who", "dietary guideline", "healthy diet", "global recommendation"],
+    "content": "WHO dietary patterns emphasize vegetables, fruits, legumes, whole grains, and nuts; lower free sugars, salt, and unhealthy fats; and minimal ultra-processed foods."
+  },
+  {
+    "keywords": ["aha", "american heart association", "heart diet"],
+    "content": "AHA-aligned eating focuses on fruits, vegetables, whole grains, lean proteins, fish, and unsaturated fats while limiting sodium, added sugar, and saturated fat."
+  },
+  {
+    "keywords": ["bmi", "body mass index", "weight category", "obesity"],
+    "content": "Adult BMI categories are commonly: underweight <18.5, healthy 18.5 to 24.9, overweight 25.0 to 29.9, obesity >=30. BMI is a screening tool, not a diagnosis."
+  },
+  {
+    "keywords": ["diabetes", "hba1c", "glycemic", "blood glucose"],
+    "content": "For diabetes nutrition, emphasize consistent carbohydrate quality, high-fiber foods, lower added sugars, and portion control. Pair carbs with protein/fat to blunt spikes."
+  },
+  {
+    "keywords": ["hypertension", "dash", "blood pressure diet", "high blood pressure"],
+    "content": "For hypertension, DASH-style eating is helpful: more fruits, vegetables, legumes, and low-fat dairy; less sodium, processed meat, and high-salt packaged foods."
+  },
+  {
+    "keywords": ["nutriscore", "nutri score", "grade a", "grade e"],
+    "content": "NutriScore grades foods from A (more favorable nutrition profile) to E (less favorable), balancing negative nutrients (sugar, saturated fat, sodium, energy) and positive ones (fiber, protein)."
+  },
+  {
+    "keywords": ["calorie budget", "calorie deficit", "maintenance calories", "energy balance"],
+    "content": "Calorie budgeting works best by setting a realistic daily target, distributing intake across meals, and prioritizing high-satiety foods to stay within goals consistently."
+  },
+  {
+    "keywords": ["water", "hydration", "daily fluid", "drink water"],
+    "content": "Daily fluid needs vary by climate, body size, and activity. A common practical target is around 2 to 3 liters/day from beverages and water-rich foods unless medically restricted."
+  },
+  {
+    "keywords": ["vitamin d", "sunlight", "bone health"],
+    "content": "Vitamin D supports calcium absorption, bone health, and immune function. Sources include sunlight exposure, fortified foods, eggs, fatty fish, and supplements when indicated."
+  },
+  {
+    "keywords": ["iron", "anemia", "hemoglobin", "fatigue"],
+    "content": "Iron supports oxygen transport. Heme iron from meat is generally absorbed better than non-heme iron from plants; vitamin C helps improve non-heme iron absorption."
+  },
+  {
+    "keywords": ["calcium", "bones", "dairy calcium", "osteoporosis"],
+    "content": "Calcium is essential for bones, muscle, and nerve function. Sources include dairy, calcium-set tofu, fortified plant milks, and some leafy greens."
+  },
+  {
+    "keywords": ["b12", "vitamin b12", "vegan nutrient", "nerve health"],
+    "content": "Vitamin B12 supports nerve function and red blood cell production. It is mainly found in animal foods and fortified products, so strict vegans often need supplementation."
+  },
+  {
+    "keywords": ["low fat", "reduced fat", "label claim", "food label"],
+    "content": "Low-fat labels do not automatically mean healthy. Some low-fat products compensate with added sugar, starch, or sodium, so the full nutrition panel still matters."
+  },
+  {
+    "keywords": ["sugar free", "no added sugar", "label terms", "sweetener"],
+    "content": "Sugar-free usually means very little sugar per serving, but total carbs and calories can still be significant. No-added-sugar products may still contain natural sugars."
+  },
+  {
+    "keywords": ["natural", "organic", "label", "marketing term"],
+    "content": "Natural and organic labels have specific meanings that vary by region. Organic refers to production standards, while natural does not always imply lower calories or sugar."
+  },
+  {
+    "keywords": ["healthy alternative", "sweet cravings", "snack swap", "drink swap"],
+    "content": "Healthier swaps include fruit with yogurt instead of candy, nuts or roasted chickpeas instead of chips, and water or unsweetened tea instead of sugary beverages."
+  },
+  {
+    "keywords": ["meal planning", "balanced meal", "plate method", "weekly prep"],
+    "content": "A simple meal plan framework is: 1/2 plate non-starchy vegetables, 1/4 lean protein, 1/4 whole grains or starchy foods, plus healthy fats and hydration."
+  }
+]

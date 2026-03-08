@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { TopBar, HomePage, ScannerPage, HistoryPage, BottomBar } from '../components';
+import { TopBar, HomePage, ScannerPage, HistoryPage, BottomBar, ChatScreen, DashboardPage } from '../components';
 import { useScanner } from '../hooks';
 import { COLORS } from '../constants';
 import { NutritionTrackerService } from '../services/nutritionTrackerService';
@@ -58,8 +58,8 @@ export const HomeScreen = ({ navigation }) => {
     if (tab !== 'scanner') {
       setScanMode(null); // Reset scan mode when leaving scanner tab
     }
-    // Refresh home page when switching to home tab
-    if (tab === 'home') {
+    // Refresh home/dashboard page when switching to those tabs
+    if (tab === 'home' || tab === 'dashboard') {
       setHomeRefreshKey(prev => prev + 1);
     }
   };
@@ -113,6 +113,8 @@ export const HomeScreen = ({ navigation }) => {
       <View style={styles.mainContent}>
         {activeTab === 'home' && <HomePage key={homeRefreshKey} />}
         
+        {activeTab === 'dashboard' && <DashboardPage key={homeRefreshKey} />}
+        
         {activeTab === 'scanner' && (
           <ScannerPage
             scanMode={scanMode}
@@ -130,6 +132,8 @@ export const HomeScreen = ({ navigation }) => {
         )}
         
         {activeTab === 'history' && <HistoryPage />}
+        
+        {activeTab === 'coach' && <ChatScreen />}
       </View>
 
       <BottomBar 

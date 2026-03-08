@@ -25,7 +25,10 @@ export const ProfileScreen = ({ navigation }) => {
     weight: '',
     gender: '',
     allergens: [],
-    hba1c: ''
+    hba1c: '',
+    dailyCalorieGoal: '',
+    dailySugarGoal: '',
+    dailySodiumGoal: ''
   });
 
   useEffect(() => {
@@ -37,7 +40,10 @@ export const ProfileScreen = ({ navigation }) => {
         weight: user.weight?.toString() || '',
         gender: user.gender || '',
         allergens: user.allergens || [],
-        hba1c: user.hba1c?.toString() || ''
+        hba1c: user.hba1c?.toString() || '',
+        dailyCalorieGoal: (user.dailyCalorieGoal || 2000).toString(),
+        dailySugarGoal: (user.dailySugarGoal || 50).toString(),
+        dailySodiumGoal: (user.dailySodiumGoal || 2300).toString()
       });
     }
   }, [user]);
@@ -126,7 +132,10 @@ export const ProfileScreen = ({ navigation }) => {
         weight: parseFloat(formData.weight),
         gender: formData.gender,
         allergens: formData.allergens,
-        hba1c: formData.hba1c ? parseFloat(formData.hba1c) : null
+        hba1c: formData.hba1c ? parseFloat(formData.hba1c) : null,
+        dailyCalorieGoal: formData.dailyCalorieGoal ? parseInt(formData.dailyCalorieGoal) : 2000,
+        dailySugarGoal: formData.dailySugarGoal ? parseInt(formData.dailySugarGoal) : 50,
+        dailySodiumGoal: formData.dailySodiumGoal ? parseInt(formData.dailySodiumGoal) : 2300
       });
 
       if (result.success) {
@@ -295,6 +304,43 @@ export const ProfileScreen = ({ navigation }) => {
             <Text style={styles.hintText}>
               Normal range: 4.0% - 5.6%. Leave empty if not available.
             </Text>
+          </View>
+
+          {/* Allergens */}
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Daily Goals</Text>
+            <View style={styles.row}>
+              <View style={[styles.inputGroup, { flex: 1, marginRight: 8 }]}>
+                <Text style={styles.hintText}>Calories (kcal)</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="2000"
+                  value={formData.dailyCalorieGoal}
+                  onChangeText={(text) => setFormData({ ...formData, dailyCalorieGoal: text.replace(/[^0-9]/g, '') })}
+                  keyboardType="numeric"
+                />
+              </View>
+              <View style={[styles.inputGroup, { flex: 1, marginLeft: 4, marginRight: 4 }]}>
+                <Text style={styles.hintText}>Sugar (g)</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="50"
+                  value={formData.dailySugarGoal}
+                  onChangeText={(text) => setFormData({ ...formData, dailySugarGoal: text.replace(/[^0-9]/g, '') })}
+                  keyboardType="numeric"
+                />
+              </View>
+              <View style={[styles.inputGroup, { flex: 1, marginLeft: 8 }]}>
+                <Text style={styles.hintText}>Sodium (mg)</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="2300"
+                  value={formData.dailySodiumGoal}
+                  onChangeText={(text) => setFormData({ ...formData, dailySodiumGoal: text.replace(/[^0-9]/g, '') })}
+                  keyboardType="numeric"
+                />
+              </View>
+            </View>
           </View>
 
           {/* Allergens */}

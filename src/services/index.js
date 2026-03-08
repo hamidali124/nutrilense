@@ -7,3 +7,4 @@ export { AINutritionExtractor } from './aiNutritionExtractor';
 export { IngredientNLPService } from './ingredientNLPService';
 export { IngredientExtractor } from './ingredientExtractor';
 export { IngredientAnalysisService } from './ingredientAnalysisService';
+export { CoachService } from './coachService';

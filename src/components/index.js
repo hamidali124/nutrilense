@@ -13,3 +13,6 @@ export { NutritionDashboard } from './NutritionDashboard';
 export { ConsumeConfirmationModal } from './ConsumeConfirmationModal';
 export { NutriScoreModal } from './NutriScoreModal';
 export { ManualInputForm } from './ManualInputForm';
+export { ChatScreen } from './ChatScreen';
+export { EnhancedDashboard } from './EnhancedDashboard';
+export { DashboardPage } from './DashboardPage';

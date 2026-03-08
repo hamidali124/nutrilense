@@ -57,6 +57,18 @@ const userSchema = new mongoose.Schema({
     min: [0, 'HbA1c must be a positive number'],
     max: [20, 'HbA1c must be less than 20%']
   },
+  dailyCalorieGoal: {
+    type: Number,
+    default: 2000
+  },
+  dailySugarGoal: {
+    type: Number,
+    default: 50
+  },
+  dailySodiumGoal: {
+    type: Number,
+    default: 2300
+  },
   createdAt: {
     type: Date,
     default: Date.now
