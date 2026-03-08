@@ -16,8 +16,8 @@ BASE_DIR = Path(__file__).parent
 MODELS_DIR = BASE_DIR / 'models'
 
 # Model paths
-HYPERTENSION_MODEL_PATH = MODELS_DIR / 'rf_hypertension.pkl'
-DIABETES_MODEL_PATH = MODELS_DIR / 'rf_diabetes.pkl'
+HYPERTENSION_MODEL_PATH = MODELS_DIR / 'rf_hypertension_compressed.pkl'
+DIABETES_MODEL_PATH = MODELS_DIR / 'rf_diabetes_compressed.pkl'
 HYPERTENSION_FEATURES_PATH = MODELS_DIR / 'model_features_hypertension.json'
 DIABETES_FEATURES_PATH = MODELS_DIR / 'model_features_diabetes.json'
 

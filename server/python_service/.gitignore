@@ -2,6 +2,10 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+
+# Original large model files (use compressed versions instead)
+models/rf_hypertension.pkl
+models/rf_diabetes.pkl
 .Python
 *.so
 *.egg
