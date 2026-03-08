@@ -7,7 +7,6 @@ import pandas as pd
 import os
 from pathlib import Path
 import warnings
-import chromadb
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for React Native app
@@ -27,6 +26,23 @@ diabetes_model = None
 hypertension_features = None
 diabetes_features = None
 
+# Runtime flags tuned for low-memory hosting tiers (e.g., free instances)
+PRELOAD_MODELS = os.environ.get('PRELOAD_MODELS', 'false').lower() in ('1', 'true', 'yes', 'on')
+ENABLE_VECTOR_KB = os.environ.get('ENABLE_VECTOR_KB', 'false').lower() in ('1', 'true', 'yes', 'on')
+
+
+def load_feature_orders():
+    """Load feature order metadata for model input alignment."""
+    global hypertension_features, diabetes_features
+
+    with open(HYPERTENSION_FEATURES_PATH, 'r') as f:
+        hypertension_features = json.load(f)
+    print(f"Loaded hypertension features: {hypertension_features}")
+
+    with open(DIABETES_FEATURES_PATH, 'r') as f:
+        diabetes_features = json.load(f)
+    print(f"Loaded diabetes features: {diabetes_features}")
+
 def load_models():
     """Load the trained models and feature orders"""
     global hypertension_model, diabetes_model, hypertension_features, diabetes_features
@@ -44,22 +60,18 @@ def load_models():
         diabetes_model = joblib.load(DIABETES_MODEL_PATH)
         print(f"Loaded diabetes model from {DIABETES_MODEL_PATH}")
         
-        # Load feature orders
-        with open(HYPERTENSION_FEATURES_PATH, 'r') as f:
-            hypertension_features = json.load(f)
-        print(f"Loaded hypertension features: {hypertension_features}")
-        
-        with open(DIABETES_FEATURES_PATH, 'r') as f:
-            diabetes_features = json.load(f)
-        print(f"Loaded diabetes features: {diabetes_features}")
+        if hypertension_features is None or diabetes_features is None:
+            load_feature_orders()
         
     except Exception as e:
         print(f"Error loading models: {e}")
         raise
 
-# Load models on startup
+# Load feature orders at startup (tiny footprint); models are lazy-loaded by default.
 with app.app_context():
-    load_models()
+    load_feature_orders()
+    if PRELOAD_MODELS:
+        load_models()
 
 # --- ChromaDB Vector Knowledge Base ---
 KNOWLEDGE_BASE_PATH = BASE_DIR.parent / 'data' / 'knowledgeBase.json'
@@ -71,6 +83,13 @@ def init_knowledge_base():
     global chroma_client, knowledge_collection
 
     try:
+        if not ENABLE_VECTOR_KB:
+            print('Vector knowledge base disabled (ENABLE_VECTOR_KB=false)')
+            return
+
+        # Delay heavy import unless vector KB is explicitly enabled.
+        import chromadb
+
         if not KNOWLEDGE_BASE_PATH.exists():
             print(f"Knowledge base not found at {KNOWLEDGE_BASE_PATH}, skipping vector store init")
             return
@@ -122,6 +141,12 @@ def init_knowledge_base():
 
 # Initialize knowledge base on startup
 init_knowledge_base()
+
+
+def ensure_models_loaded():
+    """Load models lazily when a prediction endpoint is hit."""
+    if hypertension_model is None or diabetes_model is None:
+        load_models()
 
 def calculate_eu_nutriscore(energy_kcal_100g, saturated_fat_100g, sugars_100g, sodium_mg_100g, fiber_100g, proteins_100g, fruits_vegetables_percent=0):
 
@@ -382,14 +407,9 @@ def calculate_eu_nutriscore_item():
 
 @app.route('/calculate-scan-nutriscore', methods=['POST'])
 def calculate_scan_nutriscore():
-
-    if hypertension_model is None or diabetes_model is None:
-        return jsonify({
-            'success': False,
-            'error': 'Models not loaded. Please check server logs.'
-        }), 500
-    
     try:
+        ensure_models_loaded()
+
         data = request.get_json()
         
         if not data:
@@ -659,6 +679,8 @@ def health_check():
     return jsonify({
         'success': True,
         'status': 'healthy',
+        'model_preload_enabled': PRELOAD_MODELS,
+        'vector_kb_enabled': ENABLE_VECTOR_KB,
         'models_loaded': hypertension_model is not None and diabetes_model is not None,
         'knowledge_base_ready': knowledge_collection is not None,
         'knowledge_base_count': knowledge_collection.count() if knowledge_collection else 0

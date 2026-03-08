@@ -12,8 +12,8 @@
    ```
 
 2. **Verify model files exist:**
-  - `models/rf_hypertension.pkl`
-  - `models/rf_diabetes.pkl`
+  - `models/rf_hypertension_compressed.pkl`
+  - `models/rf_diabetes_compressed.pkl`
   - `models/model_features_hypertension.json`
   - `models/model_features_diabetes.json`
   - `models/model_metadata.json`
@@ -27,6 +27,13 @@ start_service.bat
 
 ### Linux/Mac:
 ```bash
+python nutriscore_api.py
+```
+
+### Low-memory hosting (recommended for free tiers):
+```bash
+export PRELOAD_MODELS=false
+export ENABLE_VECTOR_KB=false
 python nutriscore_api.py
 ```
 
