@@ -16,11 +16,7 @@ set "NGROK_DOMAIN=protozoological-boldfacedly-aliza.ngrok-free.dev"
 
 REM ── 1. Python Flask + ChromaDB Service (port 5000) ──
 echo [1/4] Starting Python service (Flask + ChromaDB)...
-if exist "%PROJECT_ROOT%\.venv\Scripts\python.exe" (
-    start "NutriScore Python Service" cmd /k "cd /d %PYTHON_DIR% && call %PROJECT_ROOT%\.venv\Scripts\activate.bat && python nutriscore_api.py"
-) else (
-    start "NutriScore Python Service" cmd /k "cd /d %PYTHON_DIR% && python nutriscore_api.py"
-)
+start "NutriScore Python Service" cmd /k "call %PYTHON_DIR%\start_service.bat"
 echo       Waiting for ChromaDB vectors to load...
 timeout /t 10 /nobreak >nul
 
@@ -34,8 +30,13 @@ echo [3/4] Starting ngrok tunnel...
 if exist "%NGROK_EXE%" (
     start "Ngrok Tunnel" cmd /k "%NGROK_EXE% http 3000 --domain %NGROK_DOMAIN%"
 ) else (
-    echo       WARNING: ngrok not found at %NGROK_EXE%
-    echo       Skipping tunnel. Update NGROK_EXE path in this file if needed.
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "if (Get-Command ngrok -ErrorAction SilentlyContinue) { exit 0 } else { exit 1 }" >nul 2>&1
+    if not errorlevel 1 (
+        start "Ngrok Tunnel" powershell -NoExit -ExecutionPolicy Bypass -Command "ngrok http 3000 --domain %NGROK_DOMAIN%"
+    ) else (
+        echo       WARNING: ngrok not found at %NGROK_EXE% and not available in PowerShell PATH.
+        echo       Run setup.bat first, or update NGROK_EXE in this file if you use a custom install.
+    )
 )
 timeout /t 3 /nobreak >nul
 

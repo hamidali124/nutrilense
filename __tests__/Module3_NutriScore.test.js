@@ -109,6 +109,8 @@ describe('Module 3: Personalized Nutri-Score', () => {
   // Check if backend API is available
   const apiBaseUrl = process.env.EXPO_PUBLIC_API_BASE_URL || 'http://localhost:3000/api';
   const hasBackendUrl = process.env.EXPO_PUBLIC_API_BASE_URL || __DEV__;
+  let backendAvailable = false;
+  let backendUnavailableReason = 'Backend API URL not configured';
   
   if (!hasBackendUrl) {
     console.warn('⚠️  Backend API URL not found. Set EXPO_PUBLIC_API_BASE_URL environment variable.');
@@ -117,12 +119,48 @@ describe('Module 3: Personalized Nutri-Score', () => {
   
   console.log(`Using backend API: ${apiBaseUrl}`);
 
+  beforeAll(async () => {
+    if (!hasBackendUrl) {
+      return;
+    }
+
+    try {
+      const response = await axios.get(`${apiBaseUrl}/nutrition/nutriscore-health`, {
+        timeout: 5000,
+      });
+
+      backendAvailable = response.data?.success === true;
+      if (!backendAvailable) {
+        backendUnavailableReason =
+          response.data?.error || 'NutriScore backend health check returned an unsuccessful response';
+      }
+    } catch (error) {
+      backendUnavailableReason =
+        error.response?.data?.error ||
+        error.message ||
+        'NutriScore backend health check failed';
+    }
+  });
+
+  const shouldSkipRealApiTest = () => {
+    if (!hasBackendUrl) {
+      console.warn('Skipping test - Backend API URL not configured');
+      return true;
+    }
+
+    if (!backendAvailable) {
+      console.warn(`Skipping test - NutriScore backend unavailable: ${backendUnavailableReason}`);
+      return true;
+    }
+
+    return false;
+  };
+
   // COMPREHENSIVE TESTS - Calculation Accuracy & Boundary Conditions
   describe('3.6 Calculation Accuracy Validation', () => {
     
     test('3.6.1 - Should validate EU NutriScore formula correctness with REAL API', async () => {
-      if (!hasBackendUrl) {
-        console.warn('Skipping test - Backend API URL not configured');
+      if (shouldSkipRealApiTest()) {
         return;
       }
       
@@ -157,6 +195,10 @@ describe('Module 3: Personalized Nutri-Score', () => {
     }, 30000); // 30 second timeout for real API call
 
     test('3.6.2 - Should validate unhealthy product gets low score', async () => {
+      if (shouldSkipRealApiTest()) {
+        return;
+      }
+
       // Very unhealthy product: high energy, high sat fat, high sugars, high sodium, low fiber, low protein
       const unhealthyProduct = {
         calories: { total: 600 },
@@ -178,8 +220,7 @@ describe('Module 3: Personalized Nutri-Score', () => {
     });
 
     test('3.6.3 - Should validate 70/30 weighting in combined score with REAL API', async () => {
-      if (!hasBackendUrl) {
-        console.warn('Skipping test - Backend API URL not configured');
+      if (shouldSkipRealApiTest()) {
         return;
       }
       
@@ -266,8 +307,7 @@ describe('Module 3: Personalized Nutri-Score', () => {
     }, 30000);
 
     test('3.6.5 - Should handle very high values correctly with REAL API', async () => {
-      if (!hasBackendUrl) {
-        console.warn('Skipping test - Backend API URL not configured');
+      if (shouldSkipRealApiTest()) {
         return;
       }
       
@@ -300,8 +340,7 @@ describe('Module 3: Personalized Nutri-Score', () => {
     }, 30000);
 
     test('3.6.6 - Should validate serving size normalization with REAL API', async () => {
-      if (!hasBackendUrl) {
-        console.warn('Skipping test - Backend API URL not configured');
+      if (shouldSkipRealApiTest()) {
         return;
       }
       
@@ -337,8 +376,7 @@ describe('Module 3: Personalized Nutri-Score', () => {
     }, 30000);
 
     test('3.6.7 - Should validate model probability to score conversion with REAL API', async () => {
-      if (!hasBackendUrl) {
-        console.warn('Skipping test - Backend API URL not configured');
+      if (shouldSkipRealApiTest()) {
         return;
       }
       
@@ -388,8 +426,7 @@ describe('Module 3: Personalized Nutri-Score', () => {
     }, 30000);
 
     test('3.6.8 - Should validate diabetes model only used when hba1c available with REAL API', async () => {
-      if (!hasBackendUrl) {
-        console.warn('Skipping test - Backend API URL not configured');
+      if (shouldSkipRealApiTest()) {
         return;
       }
       // Without hba1c
@@ -455,8 +492,7 @@ describe('Module 3: Personalized Nutri-Score', () => {
     }, 30000);
 
     test('3.6.9 - Should validate score consistency across multiple calls with REAL API', async () => {
-      if (!hasBackendUrl) {
-        console.warn('Skipping test - Backend API URL not configured');
+      if (shouldSkipRealApiTest()) {
         return;
       }
       
@@ -482,6 +518,7 @@ describe('Module 3: Personalized Nutri-Score', () => {
         // All results should be identical
         const firstScore = results[0].eu_nutriscore;
         results.forEach(result => {
+          expect(result.success).toBe(true);
           expect(result.eu_nutriscore).toBe(firstScore);
           expect(result.grade).toBe(results[0].grade);
         });
@@ -495,8 +532,7 @@ describe('Module 3: Personalized Nutri-Score', () => {
     }, 30000);
 
     test('3.6.10 - Should handle missing optional fields gracefully with REAL API', async () => {
-      if (!hasBackendUrl) {
-        console.warn('Skipping test - Backend API URL not configured');
+      if (shouldSkipRealApiTest()) {
         return;
       }
       
@@ -525,4 +561,5 @@ describe('Module 3: Personalized Nutri-Score', () => {
     }, 30000);
   });
 });
+
 

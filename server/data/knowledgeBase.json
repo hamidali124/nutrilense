@@ -84,6 +84,10 @@
     "content": "E211 (sodium benzoate) is a preservative. In acidic foods it helps prevent spoilage. Some people prefer limiting highly processed foods that use multiple additives."
   },
   {
+    "keywords": ["e221", "sodium sulfite", "sulphite", "sulfite preservative"],
+    "content": "E221 (sodium sulfite) is a preservative and antioxidant used to prevent browning and spoilage. Sulfites can bother sensitive people, especially some people with asthma, so label checking matters."
+  },
+  {
     "keywords": ["additives", "e number", "food additives", "preservatives"],
     "content": "E numbers identify approved additives. Not all additives are harmful, but frequent intake of heavily processed foods can displace more nutrient-dense choices."
   },

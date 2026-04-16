@@ -4,14 +4,31 @@ This is the backend API server for the NutriLens mobile application.
 
 ## Setup Instructions
 
-### 1. Install Dependencies
+### 1. One-Click Setup on Windows
+
+From the repository root, run:
+
+```bash
+setup.bat
+```
+
+The script will:
+- install missing Windows prerequisites with `winget` when needed
+- create `.env` files if they do not exist yet
+- create `.venv` in the repo root
+- install frontend, backend, and Python service dependencies
+- install `ngrok` globally for the launcher flow
+
+If Azure OCR, Azure Text Analytics, or Groq keys are not configured yet, the generated `.env` files will contain placeholders that you can fill in after setup.
+
+### 2. Install Dependencies Manually
 
 ```bash
 cd server
 npm install
 ```
 
-### 2. Configure Environment Variables
+### 3. Configure Environment Variables
 
 Create a `.env` file in the `server` directory:
 
@@ -33,7 +50,7 @@ NODE_ENV=development
 - Generate a secure JWT secret (at least 32 characters)
 - Never commit the `.env` file to git
 
-### 3. Start the Server
+### 4. Start the Server
 
 **Development mode (with auto-reload):**
 ```bash
@@ -47,7 +64,7 @@ npm start
 
 The server will start on `http://localhost:3000`
 
-### 4. Test the Server
+### 5. Test the Server
 
 Visit `http://localhost:3000/api/health` in your browser. You should see:
 ```json
